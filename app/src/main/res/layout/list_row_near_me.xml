@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?android:selectableItemBackground">
+
+    <TextView
+        android:id="@+id/near_me_stop_name"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="8dp"
+        android:textColor="?attr/themeTextColor"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/near_me_distance"
+        android:layout_width="113dp"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:paddingRight="16dp"
+        android:text=""
+        android:textColor="?attr/themeSoftTextColor"
+        android:textSize="16sp" />
+
+</LinearLayout>

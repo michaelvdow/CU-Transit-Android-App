@@ -1,3 +1,57 @@
 <resources>
     <string name="app_name">CU Transit</string>
+
+    <string name="search_hint">Search for bus stops</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="no_departures_available">There are currently no scheduled departures available at this location</string>
+    <string name="title_activity_search_results">Search Results</string>
+    <string name="title_activity_route">RouteActivity</string>
+
+    <string name="title_activity_directions">Directions</string>
+    <string name="location_flipper_description">Flip Locations</string>
+    <string name="gps_network_not_enabled">To use this feature, turn on location, which use\'s Google\'s location service</string>
+    <string name="open_location_settings">OK</string>
+    <string name="Cancel">Cancel</string>
+    <string name="pull_to_refresh">Pull down to refresh</string>
+    <string name="favorites_empty_text">Click the favorites icon on a bus stop to see them here</string>
+    <string name="directions_empty_text">Add a starting and end point to view directions</string>
+    <string name="near_me_empty_text">Pull down to refresh stops</string>
+    <string name="dialog_question">How many minutes before arrival would you like to be notified?</string>
+    <string name="dialog_set">Set</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="rate_message">If you enjoy using this app, would you mind taking a moment to rate it? It won\'t take more than a minute. Thank you for your support!</string>
+    <string name="please_rate">Hey there! You seem to like this app, would you mind visiting the Play Store and give a rating? It would help us a great deal! \n\nIf instead you hate this app, we would love to hear your feedback so we can improve. Thanks!</string>
+    <string name="button_yes">Rate!</string>
+    <string name="button_no">No thanks</string>
+    <string name="button_feedback">Give feedback</string>
+    <string name="button_dont_ask">Don’t ask again</string>
+    <string name="swipe_to_dismiss">Swipe to dismiss</string>
+
+    <string name="updated_departures">Departures updated</string>
+    <string name="no_data_found">No data found from CUMTD</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="minutes">minutes</string>
+    <string name="no_routes_found">No bus routes found at this time</string>
+    <string name="directions_updated">Directions updated</string>
+    <string name="mtd_error">Error with MTD data</string>
+    <string name="route">Route</string>
+    <string name="directions">Directions</string>
+
+    <string name="near_me_fragment">Near Me</string>
+    <string name="favorites_fragment">Favorites</string>
+    <string name="map_fragment">Map</string>
+    <string name="next_stop">Next stop:</string>
+    <string name="updated">Updated:</string>
+
+
+    <string name="to">To</string>
+    <string name="metric">Metric</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="dark_mode_description">Click the settings button next to search to enable dark mode</string>
+    <string name="dark_mode_title">Try the new dark mode!</string>
 </resources>
+

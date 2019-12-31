@@ -1,11 +1,37 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="themeBackgroundColor">@color/colorLightBackground</item>
+        <item name="themeTextColor">@color/colorLightText</item>
+        <item name="themeTabBackgroundColor">@color/colorPrimary</item>
+        <item name="themeSoftTextColor">@color/colorSoftText</item>
+        <item name="themeStatusBarColor">@color/statusBarLight</item>
+        <item name="themeDialogTextColor">@color/colorPrimary</item>
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorDarkPrimary</item>
+        <item name="colorPrimaryDark">@color/colorDarkPrimaryDark</item>
+        <item name="colorAccent">@color/colorDarkAccent</item>
+        <item name="themeBackgroundColor">@color/colorDarkBackground</item>
+        <item name="themeTextColor">@color/colorDarkText</item>
+        <item name="themeTabBackgroundColor">@color/colorDarkPrimary</item>
+        <item name="themeSoftTextColor">@color/colorSoftTextDark</item>
+        <item name="themeStatusBarColor">@color/colorDarkPrimary</item>
+        <item name="themeDialogTextColor">@color/colorDarkText</item>
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:windowActionBarOverlay">true</item>
     </style>
 
 </resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="themeBackgroundColor" format="reference"/>
+    <attr name="themeTextColor" format="reference"/>
+    <attr name="themeSoftTextColor" format="reference"/>
+    <attr name="themeTabBackgroundColor" format="reference"/>
+    <attr name="themeStatusBarColor" format="reference"/>
+    <attr name="themeDialogTextColor" format="reference"/>
+
+</resources>
