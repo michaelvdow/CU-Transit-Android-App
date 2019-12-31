@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.michaedow.cutransit.R
 import com.apps.michaedow.cutransit.Utils.Distance
 import com.apps.michaedow.cutransit.database.Stops.StopItem
+import com.apps.michaedow.cutransit.main_activity.TabFragmentDirections
 
 class NearMeListAdapter internal constructor(
     context: Context
@@ -22,9 +24,18 @@ class NearMeListAdapter internal constructor(
     private var stops = emptyList<StopItem>()
     private var location: Location? = null
 
-    inner class NearMeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class NearMeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val stopName: TextView = itemView.findViewById(R.id.near_me_stop_name)
         val distance: TextView = itemView.findViewById(R.id.near_me_distance)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(view: View?) {
+            val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(view?.findViewById<TextView>(R.id.near_me_stop_name)?.text.toString())
+            view?.findNavController()?.navigate(action)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NearMeViewHolder {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/tabFragment">
+
+    <fragment
+        android:id="@+id/departuresFragment"
+        android:name="com.apps.michaedow.cutransit.departures.DeparturesFragment"
+        android:label="DeparturesFragment" >
+        <argument
+            android:name="stop_name"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/tabFragment"
+        android:name="com.apps.michaedow.cutransit.main_activity.TabFragment"
+        android:label="TabFragment" >
+        <action
+            android:id="@+id/action_tabFragment_to_departuresFragment"
+            app:destination="@+id/departuresFragment" />
+    </fragment>
+</navigation>

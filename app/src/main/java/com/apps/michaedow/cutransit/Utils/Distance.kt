@@ -7,7 +7,7 @@ class Distance {
     companion object {
         fun calculateDistance(location: Location?, lat: Double, lon: Double, metric: Boolean): String {
             if (location != null) {
-                val R = 3959.0 // Radius of the earth in km
+                val R = 3959.0 // Radius of the earth in miles
                 val dLat: Double = deg2rad(lat - location.latitude)
                 val dLon: Double = deg2rad(lon - location.longitude)
                 val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(location.latitude)) * Math.cos(deg2rad(lat)) * Math.sin(dLon / 2) * Math.sin(dLon / 2)

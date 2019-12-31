@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -22,6 +24,16 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        buildTypes.each {
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file("local.properties").newDataInputStream())
+            def mtdApiKey = properties.getProperty("mtd_api_key", "")
+
+            it.buildConfigField 'String', "MTD_API_KEY", mtdApiKey
+
+            it.resValue 'string', "api_key", mtdApiKey
+
+        }
     }
     dataBinding {
         enabled = true
@@ -29,6 +41,12 @@ android {
 }
 
 dependencies {
+    def moshiVersion="1.8.0"
+    def retrofit2_version = "2.5.0"
+    def okhttp3_version = "3.12.0"
+    def nav_version = "2.1.0"
+
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -64,5 +82,23 @@ dependencies {
 //    implementation 'com.github.humazed:RoomAsset:1.0.3'
 
     implementation "androidx.preference:preference-ktx:1.1.0"
+
+    //Moshi
+    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+
+    //Retrofit2
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit2_version"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2"
+
+    //Okhttp3
+    implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+
+    // Navigation components
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
 
 }

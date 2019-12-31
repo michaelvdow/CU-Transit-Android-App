@@ -34,7 +34,7 @@
     <string name="updated_departures">Departures updated</string>
     <string name="no_data_found">No data found from CUMTD</string>
     <string name="dismiss">Dismiss</string>
-    <string name="minutes">minutes</string>
+    <string name="minutes">min</string>
     <string name="no_routes_found">No bus routes found at this time</string>
     <string name="directions_updated">Directions updated</string>
     <string name="mtd_error">Error with MTD data</string>

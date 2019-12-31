@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/search_view"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        android:title="@string/search_hint"/>
+    <item
+        android:id="@+id/metric"
+        app:showAsAction="never"
+        android:title="@string/metric"
+        android:checkable="true"/>
+    <item
+        android:id="@+id/darkTheme"
+        app:showAsAction="never"
+        android:title="@string/dark_theme"
+        android:checkable="true"/>
+</menu>

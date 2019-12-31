@@ -9,8 +9,8 @@ import androidx.room.Query
 @Dao
 interface StopDao {
 
-    @Query("SELECT * FROM stops WHERE stop_name LIKE :stopName LIMIT 20")
-    fun searchStops(stopName: String?): List<StopItem?>?
+    @Query("SELECT * FROM stops WHERE stop_name LIKE :stopName LIMIT 1")
+    fun getStop(stopName: String?): List<StopItem?>?
 
     @Query("SELECT * FROM stops")
     fun getAllStops(): List<StopItem?>?
@@ -31,7 +31,7 @@ interface StopDao {
         stop10: String?
     ): Cursor?
 
-    @Query("SELECT * FROM stops ORDER BY ABS(:lat - stop_lat)*ABS(:lat - stop_lat) + ABS(:lon - stop_lon)*ABS(:lon - stop_lon) ASC LIMIT 25")
+    @Query("SELECT DISTINCT * FROM stops GROUP BY stop_name ORDER BY ABS(:lat - stop_lat)*ABS(:lat - stop_lat) + ABS(:lon - stop_lon)*ABS(:lon - stop_lon) ASC LIMIT 25")
     suspend fun getClosestStops(
         lat: Double,
         lon: Double

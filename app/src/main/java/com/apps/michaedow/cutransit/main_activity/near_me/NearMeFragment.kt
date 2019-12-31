@@ -31,7 +31,6 @@ class NearMeFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener, SharedPr
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_near_me, container, false)
         binding.lifecycleOwner = this
-        binding.nearMeList
 
         viewModel = ViewModelProviders.of(this).get(NearMeViewModel::class.java)
         observeViewModel(viewModel)
@@ -48,7 +47,7 @@ class NearMeFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener, SharedPr
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
 
-        //Create swipe refresh layout
+        //Create swipe refresh layout for empty text view
         swipeRefreshLayout = binding.nearMeSwipeRefreshEmptyView
         swipeRefreshLayout?.setColorSchemeColors(
             ContextCompat.getColor(
@@ -59,6 +58,7 @@ class NearMeFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener, SharedPr
         swipeRefreshLayout?.setOnRefreshListener(this)
         swipeRefreshLayout?.setEnabled(true)
 
+        // Setup swipe refresh layout for list view
         swipeRefreshLayout = binding.nearMeSwipeRefreshList
         swipeRefreshLayout?.setColorSchemeColors(
             ContextCompat.getColor(

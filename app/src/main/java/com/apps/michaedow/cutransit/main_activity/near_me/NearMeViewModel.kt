@@ -10,8 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.apps.michaedow.cutransit.database.Stops.StopDatabase
 import com.apps.michaedow.cutransit.database.Stops.StopItem
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -24,6 +23,7 @@ class NearMeViewModel(application: Application): AndroidViewModel(application) {
     private var nearbyStopsJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + nearbyStopsJob)
 
+    // Live data objects
     private val mutableStops = MutableLiveData<List<StopItem>>()
     val stops: LiveData<List<StopItem>>
         get() = mutableStops
@@ -36,10 +36,27 @@ class NearMeViewModel(application: Application): AndroidViewModel(application) {
     val refreshing: LiveData<Boolean>
         get() = mutableRefreshing
 
+
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult?) {
+            locationResult ?: return
+            for (location in locationResult.locations) {
+                mutableLocation.postValue(location)
+            }
+        }
+    }
+
     init {
         database = NearMeDatabaseProvider(StopDatabase.getDatabase(getApplication<Application>().applicationContext).stopDao())
         mutableRefreshing.value = false
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplication<Application>().applicationContext)
+
+        val locationRequest: LocationRequest = LocationRequest.create().apply {
+            interval = 10000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
     }
 
     fun updateLocation() {
@@ -47,13 +64,17 @@ class NearMeViewModel(application: Application): AndroidViewModel(application) {
             ActivityCompat.checkSelfPermission(getApplication<Application>().applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mutableRefreshing.value = true
             fusedLocationClient.lastLocation.addOnSuccessListener { newLocation: Location? ->
-                mutableLocation.value = newLocation
-                val locationValue = location.value
-                if (locationValue != null) {
-                    uiScope.launch {
-                        mutableStops.value = database.getNearbyStops(locationValue)
-                        mutableRefreshing.value = false
+                if (newLocation != null) {
+                    mutableLocation.value = newLocation
+                    val locationValue = location.value
+                    if (locationValue != null) {
+                        uiScope.launch {
+                            mutableStops.value = database.getNearbyStops(locationValue)
+                            mutableRefreshing.value = false
+                        }
                     }
+                } else {
+                    mutableRefreshing.value = true
                 }
             }
         } else {
