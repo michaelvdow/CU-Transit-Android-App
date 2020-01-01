@@ -4,27 +4,31 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.apps.michaedow.cutransit.R
-import com.apps.michaedow.cutransit.SuggestionsAdapter
-import com.apps.michaedow.cutransit.database.Stops.StopDao
-import com.apps.michaedow.cutransit.database.Stops.StopDatabase
 import com.apps.michaedow.cutransit.databinding.FragmentTabsBinding
 import com.google.android.material.tabs.TabLayout
 
 class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
 
     private lateinit var binding: FragmentTabsBinding
-    private lateinit var stopDao: StopDao
+    private lateinit var viewModel: TabFragmentViewModel
     private lateinit var prefs: SharedPreferences
-    private lateinit var suggestionsAdapter: SuggestionsAdapter
+    private lateinit var suggestionsAdapter: ArrayAdapter<String>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tabs, container, false)
+
+        viewModel = ViewModelProviders.of(this).get(TabFragmentViewModel::class.java)
 
         // Setup toolbar
         (activity as AppCompatActivity).setSupportActionBar(binding.mainToolbar)
@@ -32,6 +36,9 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
         setHasOptionsMenu(true)
 
         setupTabs()
+
+        observeViewModel(viewModel)
+
         return binding.root
     }
 
@@ -39,8 +46,16 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
     override fun onAttach(context: Context) {
         super.onAttach(context)
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val database = StopDatabase.getDatabase(context)
-        stopDao = database.stopDao()
+    }
+
+    private fun observeViewModel(viewModel: TabFragmentViewModel) {
+        viewModel.suggestions.observe(viewLifecycleOwner, Observer { suggestions ->
+            if (suggestions != null) {
+                suggestionsAdapter.clear()
+                suggestionsAdapter.addAll(suggestions)
+                suggestionsAdapter.notifyDataSetChanged()
+            }
+        })
     }
 
     private fun createSearch(menu: Menu?) {
@@ -48,15 +63,17 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
         val autoCompleteView = searchView?.findViewById<SearchView.SearchAutoComplete>(R.id.search_src_text)
         searchView.setOnQueryTextListener(this)
         searchView.setOnSuggestionListener(this)
-//        TODO: FINISH SETTING UP SEARCH
-//        val cursor: Cursor? = stopDao.getCursor("TEMPORARY SEARCH")
-//        suggestionsAdapter = SuggestionsAdapter(this, cursor)
-//        searchView.suggestionsAdapter = suggestionsAdapter
+
+        if (context != null) {
+            suggestionsAdapter = ArrayAdapter(context as Context, android.R.layout.simple_dropdown_item_1line, ArrayList<String>())
+            autoCompleteView.setAdapter(suggestionsAdapter)
+        }
     }
 
     private fun setupTabs() {
         val tabLayout = binding.slidingTabs
         val viewPager = binding.viewpager
+        viewPager.offscreenPageLimit = 2
 
         tabLayout.addTab(tabLayout.newTab().setText(R.string.near_me_fragment))
         tabLayout.addTab(tabLayout.newTab().setText(R.string.favorites_fragment))
@@ -109,19 +126,32 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onResume() {
+        super.onResume()
+        val tab = binding.slidingTabs.getTabAt(binding.viewpager.currentItem)
+        tab?.select()
+    }
+
     override fun onQueryTextSubmit(query: String?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return true
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (newText != null) {
+            viewModel.search(newText)
+        }
+        return false
     }
 
     override fun onSuggestionSelect(position: Int): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return true
     }
 
     override fun onSuggestionClick(position: Int): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val stopName = (suggestionsAdapter.getItem(position) as String).replace("&", "and")
+        val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(stopName)
+
+        view?.findNavController()?.navigate(action)
+        return true
     }
 }
