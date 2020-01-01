@@ -27,7 +27,6 @@ class NearMeFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener, SharedPr
     private lateinit var adapter: NearMeListAdapter
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
-
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_near_me, container, false)
         binding.lifecycleOwner = this

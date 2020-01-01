@@ -4,12 +4,14 @@ import com.apps.michaedow.cutransit.API.BaseRepository
 import com.apps.michaedow.cutransit.API.Departure
 import com.apps.michaedow.cutransit.API.DeparturesResponse
 import com.apps.michaedow.cutransit.API.MtdApi
+import com.apps.michaedow.cutransit.database.Favorites.FavoritesDao
+import com.apps.michaedow.cutransit.database.Favorites.FavoritesItem
 import com.apps.michaedow.cutransit.database.Stops.StopDao
 
-class DeparturesDatabaseProvider(private val api: MtdApi, private val dao: StopDao): BaseRepository() {
+class DeparturesDatabaseProvider(private val api: MtdApi, private val stopDao: StopDao, private val favoritesDao: FavoritesDao): BaseRepository() {
 
     suspend fun getDepartures(stopName: String): MutableList<Departure>? {
-        var stopId = dao.getStop(stopName)?.get(0)?.stopId
+        var stopId = stopDao.getStop(stopName)?.get(0)?.stopId
 
         if (stopId != null) {
             // Remove text after colon to get all stops at intersection
@@ -27,6 +29,22 @@ class DeparturesDatabaseProvider(private val api: MtdApi, private val dao: StopD
             return response?.departures?.toMutableList()
         }
         return null
+    }
+
+    // Returns whether it is now a favorite stop
+    suspend fun updateFavorite(stopName: String): Boolean {
+        if (favoritesDao.containsStop(stopName) > 0) {
+            favoritesDao.delete(stopName)
+            return false
+        } else {
+            val newItem = FavoritesItem(stopName)
+            favoritesDao.insert(newItem)
+            return true
+        }
+    }
+
+    suspend fun isFavorite(stopName: String): Boolean {
+        return favoritesDao.containsStop(stopName) > 0
     }
 
 }

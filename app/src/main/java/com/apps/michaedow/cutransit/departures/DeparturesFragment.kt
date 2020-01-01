@@ -1,9 +1,7 @@
 package com.apps.michaedow.cutransit.departures
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -24,6 +22,7 @@ class DeparturesFragment: Fragment(), OnRefreshListener {
     private lateinit var binding: FragmentDeparturesBinding
     private lateinit var adapter: DeparturesListAdapter
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
+    private var favoriteItem: MenuItem? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,6 +39,7 @@ class DeparturesFragment: Fragment(), OnRefreshListener {
         // Setup toolbar
         (activity as AppCompatActivity).setSupportActionBar(binding.departureToolbar)
         (activity as AppCompatActivity).title = (viewModel.stopName)
+        setHasOptionsMenu(true)
         (binding.departureToolbar as Toolbar).setNavigationOnClickListener {
             it.findNavController().navigateUp()
         }
@@ -72,6 +72,18 @@ class DeparturesFragment: Fragment(), OnRefreshListener {
         viewModel.updateDepartures()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_departure, menu)
+        favoriteItem = menu.findItem(R.id.action_favorite)
+        viewModel.checkIfFavorite()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        viewModel.favoriteClicked()
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun observeViewModel(viewModel: DeparturesViewModel) {
         viewModel.refreshing.observe(viewLifecycleOwner, Observer {refreshing ->
             swipeRefreshLayout?.isRefreshing = refreshing
@@ -85,6 +97,14 @@ class DeparturesFragment: Fragment(), OnRefreshListener {
             } else {
                 binding.departureList.visibility = View.VISIBLE
                 binding.departureListEmptyText.visibility = View.GONE
+            }
+        })
+
+        viewModel.isFavorite.observe(viewLifecycleOwner, Observer { isFavorite ->
+            if (isFavorite) {
+                favoriteItem?.setIcon(R.drawable.ic_favorite_white)
+            } else {
+                favoriteItem?.setIcon(R.drawable.ic_favorite_border_white)
             }
         })
     }

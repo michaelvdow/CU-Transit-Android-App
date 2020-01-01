@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.apps.michaedow.cutransit.API.ApiFactory
 import com.apps.michaedow.cutransit.API.Departure
+import com.apps.michaedow.cutransit.database.Favorites.FavoritesDatabase
 import com.apps.michaedow.cutransit.database.Stops.StopDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +25,8 @@ class DeparturesViewModel(application: Application): AndroidViewModel(applicatio
     private val scope = CoroutineScope(coroutineContext)
 
     private val repository : DeparturesDatabaseProvider = DeparturesDatabaseProvider(ApiFactory.mtdApi,
-        StopDatabase.getDatabase(getApplication<Application>().applicationContext).stopDao())
+        StopDatabase.getDatabase(getApplication<Application>().applicationContext).stopDao(),
+        FavoritesDatabase.getDatabase(getApplication<Application>().applicationContext).favoritesDao())
 
     // Live Data objects
     private val mutableDepartures: MutableLiveData<MutableList<Departure>> = MutableLiveData()
@@ -35,6 +37,10 @@ class DeparturesViewModel(application: Application): AndroidViewModel(applicatio
     val refreshing: LiveData<Boolean>
         get() = mutableRefreshing
 
+    private val mutableIsFavorite: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isFavorite: LiveData<Boolean>
+        get() = mutableIsFavorite
+
     var stopName: String = ""
 
     fun updateDepartures() {
@@ -42,6 +48,20 @@ class DeparturesViewModel(application: Application): AndroidViewModel(applicatio
         scope.launch {
             mutableDepartures.postValue(repository.getDepartures(stopName))
             mutableRefreshing.postValue(false)
+        }
+    }
+
+    fun favoriteClicked() {
+        scope.launch {
+            val isClicked = repository.updateFavorite(stopName)
+            mutableIsFavorite.postValue(isClicked)
+        }
+    }
+
+    fun checkIfFavorite() {
+        scope.launch {
+            val isClicked = repository.isFavorite(stopName)
+            mutableIsFavorite.postValue(isClicked)
         }
     }
 }
