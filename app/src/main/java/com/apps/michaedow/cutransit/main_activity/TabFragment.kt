@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
+import androidx.viewpager.widget.ViewPager
 import com.apps.michaedow.cutransit.R
 import com.apps.michaedow.cutransit.databinding.FragmentTabsBinding
 import com.google.android.material.tabs.TabLayout
@@ -97,6 +98,23 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
             override fun onTabReselected(tab: TabLayout.Tab) {
 
             }
+        })
+
+        viewPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                tabLayout.setScrollPosition(position, positionOffset, true)
+            }
+
+            override fun onPageSelected(position: Int) {
+            }
+
         })
     }
 
