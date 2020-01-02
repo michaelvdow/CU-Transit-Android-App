@@ -90,13 +90,15 @@ class DeparturesFragment: Fragment(), OnRefreshListener {
         })
 
         viewModel.departures.observe(viewLifecycleOwner, Observer {departures ->
-            adapter.setDepartures(departures)
-            if (departures.size == 0) {
-                binding.departureList.visibility = View.GONE
-                binding.departureListEmptyText.visibility = View.VISIBLE
-            } else {
-                binding.departureList.visibility = View.VISIBLE
-                binding.departureListEmptyText.visibility = View.GONE
+            if (departures != null) {
+                adapter.setDepartures(departures)
+                if (departures.size == 0) {
+                    binding.departureList.visibility = View.GONE
+                    binding.departureListEmptyText.visibility = View.VISIBLE
+                } else {
+                    binding.departureList.visibility = View.VISIBLE
+                    binding.departureListEmptyText.visibility = View.GONE
+                }
             }
         })
 

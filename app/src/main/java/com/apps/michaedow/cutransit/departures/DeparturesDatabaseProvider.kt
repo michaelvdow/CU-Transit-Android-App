@@ -7,6 +7,7 @@ import com.apps.michaedow.cutransit.API.MtdApi
 import com.apps.michaedow.cutransit.database.Favorites.FavoritesDao
 import com.apps.michaedow.cutransit.database.Favorites.FavoritesItem
 import com.apps.michaedow.cutransit.database.Stops.StopDao
+import java.lang.Exception
 
 class DeparturesDatabaseProvider(private val api: MtdApi, private val stopDao: StopDao, private val favoritesDao: FavoritesDao): BaseRepository() {
 
@@ -21,12 +22,15 @@ class DeparturesDatabaseProvider(private val api: MtdApi, private val stopDao: S
             }
 
             // Call query asynchronously
-            val response = safeApiCall(
-                call = {api.getDeparturesByStop(stopId, 30, 30).await()},
-                errorMessage = "WHOOPS"
-            )
-
-            return response?.departures?.toMutableList()
+            try {
+                val response = safeApiCall(
+                    call = { api.getDeparturesByStop(stopId, 30, 30).await() },
+                    errorMessage = "WHOOPS"
+                )
+                return response?.departures?.toMutableList()
+            } catch (e: Exception) {
+                return null
+            }
         }
         return null
     }
