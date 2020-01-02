@@ -15,10 +15,16 @@ interface FavoritesDao {
     @Query("DELETE FROM favorites WHERE stop_name = :stopName")
     fun delete(stopName: String?)
 
-    @Query("SELECT * FROM favorites")
+    @Query("SELECT * FROM favorites ORDER BY rank ASC")
     fun getFavorites(): LiveData<List<FavoritesItem>>
+
+    @Query("UPDATE favorites SET rank = :rank WHERE stop_name = :stopName")
+    fun updateFavorite(stopName: String, rank: Int)
 
     @Query("SELECT count(*) FROM favorites WHERE stop_name = :stopName")
     fun containsStop(stopName: String?): Int
+
+    @Query("SELECT MAX(rank) from favorites")
+    fun getLastRank(): Int
 
 }

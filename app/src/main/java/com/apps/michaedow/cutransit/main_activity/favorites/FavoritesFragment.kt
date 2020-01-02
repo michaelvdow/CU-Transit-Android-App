@@ -10,13 +10,25 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.michaedow.cutransit.R
+import com.apps.michaedow.cutransit.database.Favorites.FavoritesItem
 import com.apps.michaedow.cutransit.databinding.FragmentFavoritesBinding
 
-class FavoritesFragment: Fragment() {
+
+class FavoritesFragment: Fragment(), FavoritesListAdapter.ReorderListener {
 
     private lateinit var viewModel: FavoritesViewModel
     private lateinit var binding: FragmentFavoritesBinding
     private lateinit var adapter: FavoritesListAdapter
+    private val observer = Observer<List<FavoritesItem>> { favorites ->
+        adapter.setFavorites(favorites as ArrayList<FavoritesItem>)
+        if (favorites.size == 0) {
+            binding.favoritesEmptyText.visibility = View.VISIBLE
+            binding.favoritesList.visibility = View.GONE
+        } else {
+            binding.favoritesEmptyText.visibility = View.GONE
+            binding.favoritesList.visibility = View.VISIBLE
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorites, container, false)
@@ -37,19 +49,25 @@ class FavoritesFragment: Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
 
+        adapter.itemTouchHelper.attachToRecyclerView(recyclerView)
+        adapter.setReorderListener(this)
+
     }
 
     private fun observeViewModel(viewModel: FavoritesViewModel) {
-        viewModel.favorites.observe(viewLifecycleOwner, Observer { favorites ->
-            adapter.setFavorites(favorites)
-            if (favorites.size == 0) {
-                binding.favoritesEmptyText.visibility = View.VISIBLE
-                binding.favoritesList.visibility = View.GONE
+        viewModel.favorites.observe(viewLifecycleOwner, observer)
+
+        viewModel.updating.observe(viewLifecycleOwner, Observer { updating ->
+            if (updating) {
+                viewModel.favorites.removeObserver(observer)
             } else {
-                binding.favoritesEmptyText.visibility = View.GONE
-                binding.favoritesList.visibility = View.VISIBLE
+                viewModel.favorites.observe(viewLifecycleOwner, observer)
             }
         })
+    }
 
+    override fun onReorder() {
+        val favorites = adapter.favorites
+        viewModel.updateFavoritesOrder(favorites)
     }
 }

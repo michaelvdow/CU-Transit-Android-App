@@ -41,7 +41,8 @@ class DeparturesDatabaseProvider(private val api: MtdApi, private val stopDao: S
             favoritesDao.delete(stopName)
             return false
         } else {
-            val newItem = FavoritesItem(stopName)
+            val lastRank = favoritesDao.getLastRank()
+            val newItem = FavoritesItem(stopName, lastRank)
             favoritesDao.insert(newItem)
             return true
         }
