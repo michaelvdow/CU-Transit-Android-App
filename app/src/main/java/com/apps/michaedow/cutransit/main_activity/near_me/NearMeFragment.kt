@@ -1,13 +1,10 @@
 package com.apps.michaedow.cutransit.main_activity.near_me
 
-import android.Manifest
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -17,8 +14,8 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apps.michaedow.cutransit.R
-import com.apps.michaedow.cutransit.Utils.Permissions
 import com.apps.michaedow.cutransit.databinding.FragmentNearMeBinding
+import com.apps.michaedow.cutransit.main_activity.MainActivity
 
 class NearMeFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -69,7 +66,7 @@ class NearMeFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener, SharedPr
         swipeRefreshLayout?.setEnabled(true)
 
 
-        requestPermission()
+        (activity as MainActivity).requestPermission(false)
         viewModel.updateLocation()
     }
 
@@ -79,7 +76,7 @@ class NearMeFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener, SharedPr
         })
 
         viewModel.refreshing.observe(viewLifecycleOwner, Observer { refreshing ->
-            swipeRefreshLayout?.setRefreshing(refreshing)
+            swipeRefreshLayout?.isRefreshing = refreshing
         })
 
         viewModel.stops.observe(viewLifecycleOwner, Observer { stops ->
@@ -101,39 +98,13 @@ class NearMeFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener, SharedPr
     }
 
     override fun onRefresh() {
-        requestPermission()
+        (activity as MainActivity).requestPermission(true)
         viewModel.updateLocation()
     }
 
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, s: String?) {
         if (s?.equals("metric") ?: false) {
             viewModel.updateLocation()
-        }
-    }
-
-    // Request location permissions
-    private fun requestPermission() {
-        val context = this.context
-        val activity = this.activity
-        if (context != null && activity != null) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(activity,
-                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-                    Permissions.COARSE_LOCATION)
-            }
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(activity,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    Permissions.FINE_LOCATION)
-            }
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE)
-                != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(activity,
-                    arrayOf(Manifest.permission.ACCESS_NETWORK_STATE),
-                    Permissions.ACCESS_NETWORK_STATE)
-            }
         }
     }
 

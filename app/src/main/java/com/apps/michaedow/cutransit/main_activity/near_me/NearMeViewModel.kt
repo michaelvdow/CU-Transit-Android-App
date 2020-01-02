@@ -8,9 +8,9 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.apps.michaedow.cutransit.Utils.BetterLocationProvider
 import com.apps.michaedow.cutransit.database.Stops.StopDatabase
 import com.apps.michaedow.cutransit.database.Stops.StopItem
-import com.google.android.gms.location.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class NearMeViewModel(application: Application): AndroidViewModel(application) {
 
     private val database: NearMeDatabaseProvider
-    private var fusedLocationClient: FusedLocationProviderClient
+    private var locationClient: BetterLocationProvider = BetterLocationProvider.instance
     private var nearbyStopsJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + nearbyStopsJob)
 
@@ -36,45 +36,25 @@ class NearMeViewModel(application: Application): AndroidViewModel(application) {
     val refreshing: LiveData<Boolean>
         get() = mutableRefreshing
 
-
-    private val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult?) {
-            locationResult ?: return
-            for (location in locationResult.locations) {
-                mutableLocation.postValue(location)
-            }
-        }
-    }
-
     init {
         database = NearMeDatabaseProvider(StopDatabase.getDatabase(getApplication<Application>().applicationContext).stopDao())
         mutableRefreshing.value = false
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplication<Application>().applicationContext)
-
-        val locationRequest: LocationRequest = LocationRequest.create().apply {
-            interval = 10000
-            fastestInterval = 5000
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
     }
 
     fun updateLocation() {
+        locationClient = BetterLocationProvider.instance
         if (ActivityCompat.checkSelfPermission(getApplication<Application>().applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(getApplication<Application>().applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mutableRefreshing.value = true
-            fusedLocationClient.lastLocation.addOnSuccessListener { newLocation: Location? ->
+            locationClient.updateLocation()?.addOnSuccessListener { newLocation: Location? ->
                 if (newLocation != null) {
                     mutableLocation.value = newLocation
-                    val locationValue = location.value
-                    if (locationValue != null) {
-                        uiScope.launch {
-                            mutableStops.value = database.getNearbyStops(locationValue)
-                            mutableRefreshing.value = false
-                        }
+                    uiScope.launch {
+                        mutableStops.value = database.getNearbyStops(newLocation)
+                        mutableRefreshing.value = false
                     }
                 } else {
-                    mutableRefreshing.value = true
+                    mutableRefreshing.value = false
                 }
             }
         } else {

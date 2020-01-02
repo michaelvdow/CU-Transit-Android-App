@@ -17,9 +17,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.apps.michaedow.cutransit.Utils.BetterLocationProvider
 import com.apps.michaedow.cutransit.databinding.FragmentBusMapBinding
 import com.apps.michaedow.cutransit.main_activity.TabFragmentDirections
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -34,6 +34,7 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentBusMapBinding
     private lateinit var mapView: MapView
     private lateinit var map: GoogleMap
+    private lateinit var locationProvider: BetterLocationProvider
 
     private val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
     private val markers: ArrayList<MarkerOptions> = ArrayList()
@@ -50,6 +51,8 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
         }
         mapView.onCreate(mapViewBundle)
         mapView.getMapAsync(this)
+
+        locationProvider = BetterLocationProvider.instance
 
         viewModel = ViewModelProviders.of(this).get(MapViewModel::class.java)
         observeViewModel(viewModel)
@@ -101,31 +104,10 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
         // Setup settings
         map = googleMap
         map.setMinZoomPreference(12f)
-        // TODO: FIX ISSUE ON LACK OF PERMISSIONS
-        if (context != null && ContextCompat.checkSelfPermission(context as Context, Manifest.permission.ACCESS_COARSE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context as Context, Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
-            map.isMyLocationEnabled = true
-            val uiSettings: UiSettings = map.uiSettings
-            uiSettings.isMapToolbarEnabled = true
-            uiSettings.isCompassEnabled = true
-            uiSettings.isZoomControlsEnabled = true
-            uiSettings.isZoomGesturesEnabled = true
-            uiSettings.isMyLocationButtonEnabled = true
-
-            // Move to current location
-            if (context != null) {
-                val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context as Context)
-                fusedLocationClient.lastLocation.addOnSuccessListener { newLocation: Location? ->
-                    if (newLocation != null) {
-                        map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(newLocation.latitude, newLocation.longitude)))
-                        map.moveCamera(CameraUpdateFactory.zoomTo(17f))
-                    }
-                }
-            }
-        }
+        locationPermissionGranted()
 
         map.setOnInfoWindowClickListener { marker ->
+            viewModel.currentLocation = markers[marker.tag as Int].position
             val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(marker.title)
             findNavController().navigate(action)
         }
@@ -144,21 +126,23 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
                         .position(LatLng(stop.stopLat.toDouble(), stop.stopLon.toDouble()))
                         .title(stop.stopName)
                         .icon(icon)
-                    map.addMarker(markerOptions)
+                    map.addMarker(markerOptions).tag = markers.size
                     markers.add(markerOptions)
                 }
             }
         } else {
             map.clear()
-            for (marker in markers) {
-                map.addMarker(marker).isVisible = true
+            for (i in 0 until markers.size) {
+                map.addMarker(markers[i]).tag = i
             }
         }
     }
 
     private fun observeViewModel(viewModel: MapViewModel) {
         viewModel.stops.observe(viewLifecycleOwner, Observer {
-            setupMarkers()
+            if (::map.isInitialized) {
+                setupMarkers()
+            }
         })
     }
 
@@ -176,6 +160,34 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
         background.draw(canvas)
         vectorDrawable!!.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
+    }
+
+    fun locationPermissionGranted() {
+        if (context != null && (ContextCompat.checkSelfPermission(context as Context, Manifest.permission.ACCESS_COARSE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context as Context, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) && ::map.isInitialized) {
+            map.isMyLocationEnabled = true
+            val uiSettings: UiSettings = map.uiSettings
+            uiSettings.isMapToolbarEnabled = true
+            uiSettings.isCompassEnabled = true
+            uiSettings.isZoomControlsEnabled = true
+            uiSettings.isZoomGesturesEnabled = true
+            uiSettings.isMyLocationButtonEnabled = true
+
+            // Move to current location
+            val currentLocation = viewModel.currentLocation
+            if (currentLocation == null) {
+                locationProvider.updateLocation()?.addOnSuccessListener { newLocation: Location? ->
+                    if (newLocation != null) {
+                        map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(newLocation.latitude, newLocation.longitude)))
+                        map.moveCamera(CameraUpdateFactory.zoomTo(17f))
+                    }
+                }
+            } else {
+                map.moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
+                map.moveCamera(CameraUpdateFactory.zoomTo(17f))
+            }
+        }
     }
 
 }

@@ -1,11 +1,13 @@
 package com.apps.michaedow.cutransit.main_activity.map
 
 import android.app.Application
+import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.apps.michaedow.cutransit.database.Stops.StopDatabase
 import com.apps.michaedow.cutransit.database.Stops.StopItem
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -25,6 +27,8 @@ class MapViewModel(application: Application): AndroidViewModel(application) {
     private val mutableStops: MutableLiveData<List<StopItem>> = MutableLiveData()
     val stops: LiveData<List<StopItem>>
         get() = mutableStops
+
+    var currentLocation: LatLng? = null
 
     init {
         database = MapDatabaseProvider(StopDatabase.getDatabase(getApplication<Application>().applicationContext).stopDao())
