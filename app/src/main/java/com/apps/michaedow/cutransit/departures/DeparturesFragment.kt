@@ -1,7 +1,12 @@
 package com.apps.michaedow.cutransit.departures
 
+import android.app.Dialog
+import android.app.Notification
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
+import android.widget.NumberPicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -13,10 +18,12 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.apps.michaedow.cutransit.API.Departure
 import com.apps.michaedow.cutransit.R
 import com.apps.michaedow.cutransit.databinding.FragmentDeparturesBinding
+import com.apps.michaedow.cutransit.notification.NotificationService
 
-class DeparturesFragment: Fragment(), OnRefreshListener {
+class DeparturesFragment: Fragment(), OnRefreshListener, DeparturesListAdapter.OnDepartureLongClickListener {
 
     private lateinit var viewModel: DeparturesViewModel
     private lateinit var binding: FragmentDeparturesBinding
@@ -57,6 +64,8 @@ class DeparturesFragment: Fragment(), OnRefreshListener {
         adapter = DeparturesListAdapter(this.requireContext())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+
+        adapter.setOnLongClickListener(this)
 
         //Create swipe refresh layout
         swipeRefreshLayout = binding.departureSwipeRefresh
@@ -114,5 +123,43 @@ class DeparturesFragment: Fragment(), OnRefreshListener {
     override fun onRefresh() {
         viewModel.updateDepartures()
     }
+
+    override fun onLongClick(departure: Departure) {
+        showDialog(departure)
+    }
+
+    private fun showDialog(departure: Departure) {
+        if (context != null) {
+            val dialog = Dialog(context as Context)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.dialog_departure)
+
+            val set = dialog.findViewById<Button>(R.id.dialog_set_button)
+            val cancel = dialog.findViewById<Button>(R.id.dialog_cancel_button)
+
+            val numberPicker = dialog.findViewById<NumberPicker>(R.id.dialog_number_picker)
+            val timeLeft = departure.expected_mins
+            if (timeLeft > 1) {
+                numberPicker.maxValue = timeLeft - 1
+            } else {
+                numberPicker.maxValue = 1
+            }
+            numberPicker.minValue = 1
+            numberPicker.wrapSelectorWheel = false
+
+            set.setOnClickListener{view ->
+                val alarmTime = numberPicker.value
+                dialog.dismiss()
+                NotificationService.startService(context as Context, departure, alarmTime)
+            }
+
+            cancel.setOnClickListener{view ->
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
+    }
+
 
 }

@@ -1,5 +1,7 @@
 package com.apps.michaedow.cutransit.API
 
+import java.io.Serializable
+
 data class Trip (
     var trip_id: String,
     var trip_headsign: String,
@@ -8,4 +10,4 @@ data class Trip (
     var direction: String,
     var service_id: String,
     var shape_id: String
-)
+) : Serializable

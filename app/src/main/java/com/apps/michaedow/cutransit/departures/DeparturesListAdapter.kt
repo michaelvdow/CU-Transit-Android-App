@@ -26,12 +26,18 @@ class DeparturesListAdapter internal constructor(
         val expectedTime: TextView = itemView.findViewById(R.id.expected_time)
         val minutes: TextView = itemView.findViewById(R.id.min)
 
-        override fun onClick(p0: View?) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        init {
+            itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
         }
 
-        override fun onLongClick(p0: View?): Boolean {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        override fun onClick(view: View?) {
+
+        }
+
+        override fun onLongClick(view: View?): Boolean {
+            longClickListener?.onLongClick(departures[adapterPosition])
+            return true
         }
     }
 
@@ -45,7 +51,7 @@ class DeparturesListAdapter internal constructor(
         val departure = departures.get(position)
         holder.routeName.text = departure.headsign
         holder.destination.text = holder.itemView.context.getString(R.string.to) + " " + departure.trip.trip_headsign
-        holder.expectedTime.text = departure.expected_mins
+        holder.expectedTime.text = departure.expected_mins.toString()
 
         // Set color for row
         val rowColor = Color.parseColor("#" + departure.route.route_color)
@@ -64,4 +70,15 @@ class DeparturesListAdapter internal constructor(
 
     override fun getItemCount() = departures.size
 
+
+    // Listener for long click
+    interface OnDepartureLongClickListener {
+        fun onLongClick(departure: Departure)
+    }
+
+    private var longClickListener: OnDepartureLongClickListener? = null
+
+    fun setOnLongClickListener(longClickListener: OnDepartureLongClickListener) {
+        this.longClickListener = longClickListener
+    }
 }

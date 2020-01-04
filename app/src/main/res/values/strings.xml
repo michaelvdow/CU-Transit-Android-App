@@ -40,6 +40,8 @@
     <string name="mtd_error">Error with MTD data</string>
     <string name="route">Route</string>
     <string name="directions">Directions</string>
+    <string name="arrives">arrives</string>
+    <string name="until">until</string>
 
     <string name="near_me_fragment">Near Me</string>
     <string name="favorites_fragment">Favorites</string>

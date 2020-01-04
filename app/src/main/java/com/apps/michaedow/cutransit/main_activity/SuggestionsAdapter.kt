@@ -1,4 +1,4 @@
-package com.apps.michaedow.cutransit
+package com.apps.michaedow.cutransit.main_activity
 
 import android.content.Context
 import android.database.Cursor
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cursoradapter.widget.CursorAdapter
+import com.apps.michaedow.cutransit.R
 
 class SuggestionsAdapter(context: Context?, cursor: Cursor?) : CursorAdapter(context, cursor, 0) {
 
