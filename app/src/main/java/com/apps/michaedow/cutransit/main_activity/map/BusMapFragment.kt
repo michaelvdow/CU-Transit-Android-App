@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.apps.michaedow.cutransit.Utils.BetterLocationProvider
+import com.apps.michaedow.cutransit.database.Stops.StopItem
 import com.apps.michaedow.cutransit.databinding.FragmentBusMapBinding
 import com.apps.michaedow.cutransit.main_activity.TabFragmentDirections
 import com.google.android.gms.maps.*
@@ -38,7 +39,6 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
 
     private val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
     private val markers: ArrayList<MarkerOptions> = ArrayList()
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, com.apps.michaedow.cutransit.R.layout.fragment_bus_map, container, false)
@@ -107,8 +107,9 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
         locationPermissionGranted()
 
         map.setOnInfoWindowClickListener { marker ->
-            viewModel.currentLocation = markers[marker.tag as Int].position
-            val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(marker.title)
+            val clickedStop = marker.tag as StopItem
+            viewModel.currentLocation = LatLng(clickedStop.stopLat.toDouble(), clickedStop.stopLon.toDouble())
+            val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(clickedStop.stopId)
             findNavController().navigate(action)
         }
 
@@ -117,23 +118,17 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
 
     // If markers is empty, pull from database again
     private fun setupMarkers() {
-        if (markers.isEmpty()) {
-            val stops = viewModel.stops.value
-            if (context != null && stops != null) {
-                val icon = bitmapDescriptorFromVector(context as Context, com.apps.michaedow.cutransit.R.drawable.ic_bus_marker)
-                for (stop in stops) {
-                    val markerOptions = MarkerOptions()
-                        .position(LatLng(stop.stopLat.toDouble(), stop.stopLon.toDouble()))
-                        .title(stop.stopName)
-                        .icon(icon)
-                    map.addMarker(markerOptions).tag = markers.size
-                    markers.add(markerOptions)
-                }
-            }
-        } else {
-            map.clear()
-            for (i in 0 until markers.size) {
-                map.addMarker(markers[i]).tag = i
+        map.clear()
+        val stops = viewModel.stops.value
+        if (context != null && stops != null) {
+            val icon = bitmapDescriptorFromVector(context as Context, com.apps.michaedow.cutransit.R.drawable.ic_bus_marker)
+            for (stop in stops) {
+                val markerOptions = MarkerOptions()
+                    .position(LatLng(stop.stopLat.toDouble(), stop.stopLon.toDouble()))
+                    .title(stop.stopName)
+                    .icon(icon)
+                map.addMarker(markerOptions).tag = stop
+                markers.add(markerOptions)
             }
         }
     }

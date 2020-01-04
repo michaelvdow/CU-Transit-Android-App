@@ -5,7 +5,7 @@ import com.apps.michaedow.cutransit.database.Stops.StopItem
 
 class MapDatabaseProvider(private val dao: StopDao) {
 
-    suspend fun getStops(): List<StopItem> {
+    fun getStops(): List<StopItem> {
         return dao.getBusStops()
     }
 

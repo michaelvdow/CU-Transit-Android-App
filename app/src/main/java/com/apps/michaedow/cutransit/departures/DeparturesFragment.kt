@@ -1,10 +1,10 @@
 package com.apps.michaedow.cutransit.departures
 
 import android.app.Dialog
-import android.app.Notification
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.NumberPicker
 import androidx.appcompat.app.AppCompatActivity
@@ -18,10 +18,12 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.apps.michaedow.cutransit.API.Departure
+import com.apps.michaedow.cutransit.API.responses.departureResponse.Departure
 import com.apps.michaedow.cutransit.R
+import com.apps.michaedow.cutransit.Utils.Utils
 import com.apps.michaedow.cutransit.databinding.FragmentDeparturesBinding
 import com.apps.michaedow.cutransit.notification.NotificationService
+
 
 class DeparturesFragment: Fragment(), OnRefreshListener, DeparturesListAdapter.OnDepartureLongClickListener {
 
@@ -40,18 +42,32 @@ class DeparturesFragment: Fragment(), OnRefreshListener, DeparturesListAdapter.O
         viewModel = ViewModelProviders.of(this).get(DeparturesViewModel::class.java)
         arguments?.let {
             val safeArgs = DeparturesFragmentArgs.fromBundle(it)
-            viewModel.stopName = safeArgs.stopName
+            viewModel.stopId = Utils.fixStopId(safeArgs.stopId)
+        }
+
+        observeViewModel(viewModel)
+
+        // Hide keyboard
+        if (activity != null) {
+            val inputManager: InputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+            // check if no view has focus:
+            val currentFocusedView = activity!!.currentFocus
+            if (currentFocusedView != null) {
+                inputManager.hideSoftInputFromWindow(
+                    currentFocusedView.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS
+                )
+            }
         }
 
         // Setup toolbar
         (activity as AppCompatActivity).setSupportActionBar(binding.departureToolbar)
-        (activity as AppCompatActivity).title = (viewModel.stopName)
+        viewModel.getStopName()
         setHasOptionsMenu(true)
         (binding.departureToolbar as Toolbar).setNavigationOnClickListener {
             it.findNavController().navigateUp()
         }
-
-        observeViewModel(viewModel)
 
         return binding.root
     }
@@ -116,6 +132,12 @@ class DeparturesFragment: Fragment(), OnRefreshListener, DeparturesListAdapter.O
                 favoriteItem?.setIcon(R.drawable.ic_favorite_white)
             } else {
                 favoriteItem?.setIcon(R.drawable.ic_favorite_border_white)
+            }
+        })
+
+        viewModel.stopName.observe(viewLifecycleOwner, Observer { stopName ->
+            if (stopName != null) {
+                (activity as AppCompatActivity).title = (stopName)
             }
         })
     }

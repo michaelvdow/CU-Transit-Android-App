@@ -18,11 +18,11 @@ interface FavoritesDao {
     @Query("SELECT * FROM favorites ORDER BY rank ASC")
     fun getFavorites(): LiveData<List<FavoritesItem>>
 
-    @Query("UPDATE favorites SET rank = :rank WHERE stop_name = :stopName")
-    fun updateFavorite(stopName: String, rank: Int)
+    @Query("UPDATE favorites SET rank = :rank WHERE stop_id = :stopId")
+    fun updateFavorite(stopId: String, rank: Int)
 
-    @Query("SELECT count(*) FROM favorites WHERE stop_name = :stopName")
-    fun containsStop(stopName: String?): Int
+    @Query("SELECT count(*) FROM favorites WHERE stop_id = :stopId")
+    fun containsStop(stopId: String?): Int
 
     @Query("SELECT MAX(rank) from favorites")
     fun getLastRank(): Int

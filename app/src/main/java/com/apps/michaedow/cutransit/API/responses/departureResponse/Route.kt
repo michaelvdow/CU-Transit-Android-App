@@ -1,4 +1,4 @@
-package com.apps.michaedow.cutransit.API
+package com.apps.michaedow.cutransit.API.responses.departureResponse
 
 import java.io.Serializable
 

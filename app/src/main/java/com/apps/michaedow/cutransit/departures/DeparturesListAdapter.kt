@@ -1,17 +1,15 @@
 package com.apps.michaedow.cutransit.departures
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Color
-import android.location.Location
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.apps.michaedow.cutransit.API.Departure
+import com.apps.michaedow.cutransit.API.responses.departureResponse.Departure
 import com.apps.michaedow.cutransit.R
-import com.apps.michaedow.cutransit.database.Stops.StopItem
 
 class DeparturesListAdapter internal constructor(
     context: Context
@@ -32,7 +30,8 @@ class DeparturesListAdapter internal constructor(
         }
 
         override fun onClick(view: View?) {
-
+            val action = DeparturesFragmentDirections.actionDeparturesFragmentToRouteFragment(departures[adapterPosition])
+            view?.findNavController()?.navigate(action)
         }
 
         override fun onLongClick(view: View?): Boolean {

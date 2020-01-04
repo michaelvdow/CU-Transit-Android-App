@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.apps.michaedow.cutransit.API.ApiFactory
-import com.apps.michaedow.cutransit.API.Departure
+import com.apps.michaedow.cutransit.API.responses.departureResponse.Departure
 import com.apps.michaedow.cutransit.database.Favorites.FavoritesDatabase
 import com.apps.michaedow.cutransit.database.Stops.StopDatabase
 import kotlinx.coroutines.CoroutineScope
@@ -41,27 +41,37 @@ class DeparturesViewModel(application: Application): AndroidViewModel(applicatio
     val isFavorite: LiveData<Boolean>
         get() = mutableIsFavorite
 
-    var stopName: String = ""
+    private val mutableStopName: MutableLiveData<String> = MutableLiveData("")
+    val stopName: LiveData<String>
+        get() = mutableStopName
+
+    var stopId: String = ""
 
     fun updateDepartures() {
         mutableRefreshing.postValue(true)
         scope.launch {
-            mutableDepartures.postValue(repository.getDepartures(stopName))
+            mutableDepartures.postValue(repository.getDepartures(stopId))
             mutableRefreshing.postValue(false)
         }
     }
 
     fun favoriteClicked() {
         scope.launch {
-            val isClicked = repository.updateFavorite(stopName)
+            val isClicked = repository.updateFavorite(stopName.value as String, stopId)
             mutableIsFavorite.postValue(isClicked)
         }
     }
 
     fun checkIfFavorite() {
         scope.launch {
-            val isClicked = repository.isFavorite(stopName)
+            val isClicked = repository.isFavorite(stopId)
             mutableIsFavorite.postValue(isClicked)
+        }
+    }
+
+    fun getStopName() {
+        scope.launch {
+            mutableStopName.postValue(repository.getStopName(stopId))
         }
     }
 }

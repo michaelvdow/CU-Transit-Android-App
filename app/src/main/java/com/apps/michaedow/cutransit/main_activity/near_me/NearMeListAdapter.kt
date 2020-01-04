@@ -27,13 +27,14 @@ class NearMeListAdapter internal constructor(
     inner class NearMeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val stopName: TextView = itemView.findViewById(R.id.near_me_stop_name)
         val distance: TextView = itemView.findViewById(R.id.near_me_distance)
+        var stopId: String = ""
 
         init {
             itemView.setOnClickListener(this)
         }
 
         override fun onClick(view: View?) {
-            val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(view?.findViewById<TextView>(R.id.near_me_stop_name)?.text.toString())
+            val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(stopId)
             view?.findNavController()?.navigate(action)
         }
     }
@@ -51,6 +52,7 @@ class NearMeListAdapter internal constructor(
         val lat = current.stopLat.toDouble()
         val lon = current.stopLon.toDouble()
         holder.distance.text = Distance.calculateDistance(location, lat, lon, isMetric)
+        holder.stopId = current.stopId
     }
 
     internal fun setStops(stops: List<StopItem>) {

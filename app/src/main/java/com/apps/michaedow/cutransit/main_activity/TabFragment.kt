@@ -61,6 +61,14 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
                 suggestionsAdapter.notifyDataSetChanged()
             }
         })
+
+        viewModel.mutableStopId.observe(viewLifecycleOwner, Observer { stopId ->
+            if (stopId != null) {
+                val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(stopId)
+                view?.findNavController()?.navigate(action)
+                viewModel.mutableStopId.postValue(null)
+            }
+        })
     }
 
     private fun createSearch(menu: Menu?) {
@@ -171,9 +179,7 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
 
     override fun onSuggestionClick(position: Int): Boolean {
         val stopName = (suggestionsAdapter.getItem(position) as String).replace("&", "and")
-        val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(stopName)
-
-        view?.findNavController()?.navigate(action)
+        viewModel.openDepartureFromStopName(stopName)
         return true
     }
 }

@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/tabFragment">
 
     <fragment
         android:id="@+id/departuresFragment"
         android:name="com.apps.michaedow.cutransit.departures.DeparturesFragment"
-        android:label="DeparturesFragment" >
+        android:label="DeparturesFragment">
         <argument
-            android:name="stop_name"
+            android:name="stop_id"
             app:argType="string" />
+        <action
+            android:id="@+id/action_departuresFragment_to_routeFragment"
+            app:destination="@id/routeFragment" />
     </fragment>
     <fragment
         android:id="@+id/tabFragment"
@@ -18,5 +23,16 @@
         <action
             android:id="@+id/action_tabFragment_to_departuresFragment"
             app:destination="@+id/departuresFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/routeFragment"
+        android:name="com.apps.michaedow.cutransit.route.RouteFragment"
+        android:label="RouteFragment" >
+        <argument
+            android:name="departure"
+            app:argType="com.apps.michaedow.cutransit.API.responses.departureResponse.Departure" />
+        <action
+            android:id="@+id/action_routeFragment_to_departuresFragment"
+            app:destination="@id/departuresFragment" />
     </fragment>
 </navigation>

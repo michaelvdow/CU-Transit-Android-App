@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.apps.michaedow.cutransit.API.AutocompleteApi.AutocompleteApiFactory
+import com.apps.michaedow.cutransit.database.Stops.StopDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -20,11 +21,14 @@ class TabFragmentViewModel(application: Application): AndroidViewModel(applicati
 
     private val scope = CoroutineScope(coroutineContext)
 
-    private val repository = TabFragmentDatabaseProvider(AutocompleteApiFactory.autocompleteApi)
+    private val repository = TabFragmentDatabaseProvider(AutocompleteApiFactory.autocompleteApi,
+        StopDatabase.getDatabase(getApplication<Application>().applicationContext).stopDao())
 
     private val mutableSuggestions: MutableLiveData<ArrayList<String>> = MutableLiveData()
     val suggestions: LiveData<ArrayList<String>>
         get() = mutableSuggestions
+
+    val mutableStopId = MutableLiveData<String?>(null)
 
     fun search(query: String) {
         scope.launch {
@@ -35,6 +39,16 @@ class TabFragmentViewModel(application: Application): AndroidViewModel(applicati
                     newSuggestions.add(suggestion.result.name)
                 }
                 mutableSuggestions.postValue(newSuggestions)
+            }
+        }
+    }
+
+    fun openDepartureFromStopName(stopName: String) {
+        println(stopName)
+        scope.launch {
+            val stopId = repository.getStopId(stopName)
+            if (stopId != null) {
+                mutableStopId.postValue(stopId)
             }
         }
     }

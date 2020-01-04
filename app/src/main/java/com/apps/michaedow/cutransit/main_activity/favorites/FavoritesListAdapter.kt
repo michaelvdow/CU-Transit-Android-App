@@ -24,14 +24,14 @@ class FavoritesListAdapter internal constructor(
 
     inner class FavoritesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val stopName: TextView = itemView.findViewById(R.id.favorite_stop_name)
+        var stopId = ""
 
         init {
             itemView.setOnClickListener(this)
         }
 
         override fun onClick(view: View?) {
-            val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(view?.findViewById<TextView>(
-                R.id.favorite_stop_name)?.text.toString())
+            val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(stopId)
             view?.findNavController()?.navigate(action)
         }
     }
@@ -53,6 +53,7 @@ class FavoritesListAdapter internal constructor(
     override fun onBindViewHolder(holder: FavoritesViewHolder, position: Int) {
         val current = favorites[position]
         holder.stopName.text = current.stopName
+        holder.stopId = current.stopId
     }
 
     internal fun setFavorites(favorites: ArrayList<FavoritesItem>) {

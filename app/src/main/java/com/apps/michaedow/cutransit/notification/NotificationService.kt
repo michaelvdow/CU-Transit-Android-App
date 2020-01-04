@@ -17,14 +17,15 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.apps.michaedow.cutransit.API.ApiFactory
-import com.apps.michaedow.cutransit.API.Departure
-import com.apps.michaedow.cutransit.API.DeparturesResponse
+import com.apps.michaedow.cutransit.API.responses.departureResponse.Departure
+import com.apps.michaedow.cutransit.API.responses.DeparturesResponse
 import com.apps.michaedow.cutransit.R
 import com.apps.michaedow.cutransit.main_activity.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 
@@ -120,12 +121,17 @@ class NotificationService: Service() {
         runnable = Runnable {
             if (running) {
                 val api = ApiFactory.mtdApi
-                scope.launch {
-                    val response = api.getDeparturesByStop(departure.stop_id, 30, 30).await()
-                    if (response.isSuccessful) {
-                        updateNotificationUI(response.body())
+                try {
+                    scope.launch {
+                        val response = api.getDeparturesByStop(departure.stop_id, 30, 30).await()
+                        if (response.isSuccessful) {
+                            updateNotificationUI(response.body())
+                        }
                     }
+                } catch (e: Exception) {
+
                 }
+
 
                 handler.postDelayed(runnable, checkDuration)
             } else {
