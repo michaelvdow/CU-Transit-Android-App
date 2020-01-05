@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView android:id="@+id/stop_suggestion"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-
-    <TextView
-        android:id="@+id/stop_suggestion"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        android:background="@android:color/white"/>
-</LinearLayout>
+    android:layout_height="56dp"
+    android:gravity="center_vertical"
+    android:paddingLeft="16dp"
+    android:textSize="18sp"
+    android:textColor="?attr/themeTextColor"
+    android:background="?attr/themeBackgroundColor"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

@@ -3,6 +3,7 @@ package com.apps.michaedow.cutransit.main_activity.map
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.location.Location
@@ -17,15 +18,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.apps.michaedow.cutransit.R
 import com.apps.michaedow.cutransit.Utils.BetterLocationProvider
 import com.apps.michaedow.cutransit.database.Stops.StopItem
 import com.apps.michaedow.cutransit.databinding.FragmentBusMapBinding
 import com.apps.michaedow.cutransit.main_activity.TabFragmentDirections
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 
 
 class BusMapFragment: Fragment(), OnMapReadyCallback {
@@ -103,6 +102,15 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         // Setup settings
         map = googleMap
+        try {
+            if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
+                map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context as Context, R.raw.style_dark))
+            } else {
+                map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context as Context, R.raw.style_light))
+            }
+        } catch (e: Exception) {
+
+        }
         map.setMinZoomPreference(12f)
         locationPermissionGranted()
 

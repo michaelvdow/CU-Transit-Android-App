@@ -3,6 +3,7 @@ package com.apps.michaedow.cutransit.route.map
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -109,6 +110,15 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         // Setup settings
         map = googleMap
+        try {
+            if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
+                map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context as Context, R.raw.style_dark))
+            } else {
+                map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context as Context, R.raw.style_light))
+            }
+        } catch (e: Exception) {
+
+        }
         map.setMinZoomPreference(12f)
 
         locationPermissionGranted()

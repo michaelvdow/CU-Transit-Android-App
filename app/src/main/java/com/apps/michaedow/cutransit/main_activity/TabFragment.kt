@@ -1,18 +1,12 @@
 package com.apps.michaedow.cutransit.main_activity
 
-import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -74,12 +68,13 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
 
     private fun createSearch(menu: Menu?) {
         val searchView = menu?.findItem(R.id.search_view)?.actionView as SearchView
+
         val autoCompleteView = searchView?.findViewById<SearchView.SearchAutoComplete>(R.id.search_src_text)
         searchView.setOnQueryTextListener(this)
         searchView.setOnSuggestionListener(this)
 
         if (context != null) {
-            suggestionsAdapter = ArrayAdapter(context as Context, android.R.layout.simple_dropdown_item_1line, ArrayList<String>())
+            suggestionsAdapter = ArrayAdapter(context as Context, R.layout.list_row_suggestion, ArrayList<String>())
             autoCompleteView.setAdapter(suggestionsAdapter)
         }
     }
