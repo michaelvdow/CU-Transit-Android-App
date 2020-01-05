@@ -94,6 +94,16 @@ class DeparturesFragment: Fragment(), OnRefreshListener, DeparturesListAdapter.O
         swipeRefreshLayout?.setOnRefreshListener(this)
         swipeRefreshLayout?.setEnabled(true)
 
+        swipeRefreshLayout = binding.departureSwipeRefreshEmptyText
+        swipeRefreshLayout?.setColorSchemeColors(
+            ContextCompat.getColor(
+                context!!,
+                R.color.colorAccent
+            ), ContextCompat.getColor(context!!, R.color.colorPrimary)
+        )
+        swipeRefreshLayout?.setOnRefreshListener(this)
+        swipeRefreshLayout?.setEnabled(true)
+
         viewModel.updateDepartures()
     }
 
@@ -118,11 +128,11 @@ class DeparturesFragment: Fragment(), OnRefreshListener, DeparturesListAdapter.O
             if (departures != null) {
                 adapter.setDepartures(departures)
                 if (departures.size == 0) {
-                    binding.departureList.visibility = View.GONE
-                    binding.departureListEmptyText.visibility = View.VISIBLE
+                    binding.departureSwipeRefresh.visibility = View.GONE
+                    binding.departureSwipeRefreshEmptyText.visibility = View.VISIBLE
                 } else {
-                    binding.departureList.visibility = View.VISIBLE
-                    binding.departureListEmptyText.visibility = View.GONE
+                    binding.departureSwipeRefresh.visibility = View.VISIBLE
+                    binding.departureSwipeRefreshEmptyText.visibility = View.GONE
                 }
             }
         })

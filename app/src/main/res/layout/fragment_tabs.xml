@@ -43,6 +43,7 @@
             app:tabMode="fixed"
             app:layout_constraintTop_toBottomOf="@id/appBarLayout"
             app:tabSelectedTextColor="@color/tab_selected"
+            app:tabIndicatorColor="@color/colorAccent"
             app:tabTextColor="@color/tab_color" />
 
         <androidx.viewpager.widget.ViewPager

@@ -50,7 +50,8 @@
                 android:text="@string/near_me_empty_text"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:textColor="@android:color/black"
+                android:paddingBottom="100dp"
+                android:textColor="?attr/themeTextColor"
                 android:background="?attr/themeBackgroundColor"
                 android:gravity="center"/>
 
