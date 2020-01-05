@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.apps.michaedow.cutransit.API.responses.departureResponse.Departure
+import com.apps.michaedow.cutransit.route.list.RouteListFragment
 import com.apps.michaedow.cutransit.route.map.RouteMapFragment
 
 class RouteViewPagerAdapter(fm: FragmentManager, internal var totalTabs: Int, val departure: Departure) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -19,7 +20,7 @@ class RouteViewPagerAdapter(fm: FragmentManager, internal var totalTabs: Int, va
                 return fragment
             }
             else -> {
-                val fragment = RouteMapFragment()
+                val fragment = RouteListFragment()
                 val args = Bundle()
                 args.putSerializable("departure", departure)
                 fragment.arguments = args

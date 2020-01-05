@@ -5,8 +5,10 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.apps.michaedow.cutransit.API.ApiFactory
 import com.apps.michaedow.cutransit.API.responses.departureResponse.Departure
 import com.apps.michaedow.cutransit.API.responses.shapeResponse.Shape
 import com.apps.michaedow.cutransit.API.responses.stopTimesResponse.StopTime
@@ -26,6 +29,7 @@ import com.apps.michaedow.cutransit.databinding.FragmentRouteMapBinding
 import com.apps.michaedow.cutransit.route.RouteFragmentDirections
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
+import kotlinx.coroutines.launch
 
 class RouteMapFragment: Fragment(), OnMapReadyCallback {
 
@@ -35,6 +39,9 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
     private lateinit var locationProvider: BetterLocationProvider
     private val markers: ArrayList<Marker> = ArrayList()
+    private var runnable: Runnable? = null
+    private var running = true
+    private var busMarker: Marker? = null
 
     private val MAP_VIEW_BUNDLE_KEY = "RouteMapViewBundleKey"
 
@@ -104,16 +111,6 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
         map = googleMap
         map.setMinZoomPreference(12f)
 
-//        map.setOnCameraIdleListener {
-//            if (viewModel.stopTimes.value != null) {
-//                for (marker in markers) {
-//                    marker.remove()
-//                }
-//                markers.clear()
-//                setupStops(viewModel.stopTimes.value as List<StopTime>)
-//            }
-//        }
-
         locationPermissionGranted()
         map.setOnInfoWindowClickListener { marker ->
             val action = RouteFragmentDirections.actionRouteFragmentToDeparturesFragment(marker.tag as String)
@@ -122,6 +119,7 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
 
         viewModel.getShape()
         viewModel.getStops()
+        setupBusHandler()
     }
 
     private fun observeViewModel(viewModel: RouteMapViewModel) {
@@ -136,12 +134,31 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
                 setupStops(stopTimes)
             }
         })
+
+        viewModel.busLocation.observe(viewLifecycleOwner, Observer { location ->
+            if (location != null) {
+                if (busMarker == null) {
+                    println(location)
+                    val icon = bitmapDescriptorFromVector(context as Context, R.drawable.ic_bus, 60)
+                    val options = MarkerOptions()
+                        .position(location)
+                        .icon(icon)
+                        .visible(true)
+                        .zIndex(3.0f)
+
+                    busMarker = map.addMarker(options)
+
+                } else {
+                    busMarker?.position = location
+                }
+            }
+        })
     }
 
     private fun setupStops(stopTimes: List<StopTime>) {
         for (stopTime in stopTimes) {
             val location = LatLng(stopTime.stop_point.stop_lat, stopTime.stop_point.stop_lon)
-            val icon = bitmapDescriptorFromVector(context as Context, R.drawable.ic_bus_marker)
+            val icon = bitmapDescriptorFromVector(context as Context, R.drawable.ic_bus_marker, 50)
             val options = MarkerOptions()
                 .position(location)
                 .title(stopTime.stop_point.stop_name)
@@ -162,6 +179,19 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
         map.moveCamera(CameraUpdateFactory.zoomTo(17f))
     }
 
+    private fun setupBusHandler() {
+        val checkDuration: Long = 60000
+        val handler = Handler()
+        runnable = Runnable {
+            if (running) {
+                viewModel.updateBusLocation()
+                println("UPDATING LOCATION")
+
+                handler.postDelayed(runnable, checkDuration)
+            }
+        }
+        handler.postDelayed(runnable, 0)
+    }
 
 
     private fun setupShapes(shapes: List<Shape>) {
@@ -169,12 +199,13 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
         for (shape in shapes) {
             polylineOptions.add(LatLng(shape.shape_pt_lat, shape.shape_pt_lon))
         }
-
         try {
+            val color = viewModel.departure.route.route_color
             map.addPolyline(
-                polylineOptions.color(
-                    ContextCompat.getColor(context!!, R.color.colorPrimary)
-                ).width(15f).endCap(RoundCap())
+                polylineOptions.color(Color.parseColor("#ff$color"))
+                    .width(15f)
+                    .endCap(RoundCap())
+
             )
         } catch (e: Exception) {
 
@@ -197,13 +228,13 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
     }
 
 
-    private fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorDrawableResourceId: Int): BitmapDescriptor? {
-        val background = ContextCompat.getDrawable(context, R.drawable.ic_bus_marker)
-        background!!.setBounds(0, 0, 50, 50)
+    private fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorDrawableResourceId: Int, size: Int): BitmapDescriptor? {
+        val background = ContextCompat.getDrawable(context, vectorDrawableResourceId)
+        background!!.setBounds(0, 0, size, size)
         val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId)
         val bitmap = Bitmap.createBitmap(
-            50,
-            50,
+            size,
+            size,
             Bitmap.Config.ARGB_8888
         )
         val canvas = Canvas(bitmap)

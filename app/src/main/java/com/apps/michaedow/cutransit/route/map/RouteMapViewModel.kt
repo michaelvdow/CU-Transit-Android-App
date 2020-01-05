@@ -29,7 +29,6 @@ class RouteMapViewModel(application: Application): AndroidViewModel(application)
 
     // Data
     lateinit var departure: Departure
-    var currentLocation: LatLng? = null
     private var mutableShapes: MutableLiveData<List<Shape>?> = MutableLiveData()
     val shapes: LiveData<List<Shape>?>
         get() = mutableShapes
@@ -37,6 +36,10 @@ class RouteMapViewModel(application: Application): AndroidViewModel(application)
     private var mutableStopTimes: MutableLiveData<List<StopTime>?> = MutableLiveData()
     val stopTimes: LiveData<List<StopTime>?>
         get() = mutableStopTimes
+
+    private var mutableBusLocation: MutableLiveData<LatLng> = MutableLiveData()
+    val busLocation: LiveData<LatLng>
+        get() = mutableBusLocation
 
     fun getShape() {
         scope.launch {
@@ -47,6 +50,15 @@ class RouteMapViewModel(application: Application): AndroidViewModel(application)
     fun getStops() {
         scope.launch {
             mutableStopTimes.postValue(repository.getStopTimes(departure.trip.trip_id))
+        }
+    }
+
+    fun updateBusLocation() {
+        scope.launch {
+            val bus = repository.getBusLocation(departure.vehicle_id)
+            if (bus != null) {
+                mutableBusLocation.postValue(LatLng(bus.location.lat, bus.location.lon))
+            }
         }
     }
 

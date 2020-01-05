@@ -1,11 +1,14 @@
 package com.apps.michaedow.cutransit.route
 
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -13,7 +16,6 @@ import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.apps.michaedow.cutransit.R
 import com.apps.michaedow.cutransit.databinding.FragmentRouteBinding
-import com.apps.michaedow.cutransit.route.map.RouteMapFragment
 import com.google.android.material.tabs.TabLayout
 
 
@@ -56,8 +58,8 @@ class RouteFragment: Fragment() {
         val viewPager = binding.routeViewpager
         viewPager.offscreenPageLimit = 1
 
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.near_me_fragment))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.favorites_fragment))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.map_fragment))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.stops))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
         val adapter = RouteViewPagerAdapter(childFragmentManager, tabLayout.tabCount, viewModel.departure)

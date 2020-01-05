@@ -46,6 +46,7 @@
     <string name="near_me_fragment">Near Me</string>
     <string name="favorites_fragment">Favorites</string>
     <string name="map_fragment">Map</string>
+    <string name="stops">Stops</string>
     <string name="next_stop">Next stop:</string>
     <string name="updated">Updated:</string>
 

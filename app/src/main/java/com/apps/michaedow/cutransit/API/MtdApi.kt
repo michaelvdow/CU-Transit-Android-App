@@ -2,6 +2,7 @@ package com.apps.michaedow.cutransit.API
 
 import com.apps.michaedow.cutransit.API.responses.DeparturesResponse
 import com.apps.michaedow.cutransit.API.responses.ShapeResponse
+import com.apps.michaedow.cutransit.API.responses.busLocationResponse.BusLocationResponse
 import com.apps.michaedow.cutransit.API.responses.stopTimesResponse.StopTimesResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
@@ -18,5 +19,10 @@ interface MtdApi {
     fun getShape(@Query("shape_id") shapeId: String): Deferred<Response<ShapeResponse>>
 
     @GET("getstoptimesbytrip")
-    fun getStopTiemsByTrip(@Query("trip_id") tripId: String): Deferred<Response<StopTimesResponse>>
+    fun getStopTimesByTrip(@Query("trip_id") tripId: String): Deferred<Response<StopTimesResponse>>
+
+    @GET("getvehicle")
+    fun getBusLocation(@Query("vehicle_id") vehicleId: String): Deferred<Response<BusLocationResponse>>
+
+
 }
