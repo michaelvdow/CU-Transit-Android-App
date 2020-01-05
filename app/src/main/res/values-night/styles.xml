@@ -10,7 +10,7 @@
         <item name="themeTabBackgroundColor">@color/colorDarkPrimary</item>
         <item name="themeSoftTextColor">@color/colorSoftTextDark</item>
         <item name="themeStatusBarColor">@color/colorDarkPrimary</item>
-        <item name="themeDialogTextColor">@color/colorDarkText</item>
+        <item name="themeDialogTextColor">@color/colorLightText</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 

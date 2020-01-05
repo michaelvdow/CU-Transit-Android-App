@@ -76,7 +76,8 @@ class NearMeFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener, SharedPr
         })
 
         viewModel.refreshing.observe(viewLifecycleOwner, Observer { refreshing ->
-            swipeRefreshLayout?.isRefreshing = refreshing
+            binding.nearMeSwipeRefreshList?.isRefreshing = refreshing
+            binding.nearMeSwipeRefreshEmptyView?.isRefreshing = refreshing
         })
 
         viewModel.stops.observe(viewLifecycleOwner, Observer { stops ->

@@ -51,6 +51,7 @@ class DeparturesViewModel(application: Application): AndroidViewModel(applicatio
         mutableRefreshing.postValue(true)
         scope.launch {
             mutableDepartures.postValue(repository.getDepartures(stopId))
+            println("HERE")
             mutableRefreshing.postValue(false)
         }
     }

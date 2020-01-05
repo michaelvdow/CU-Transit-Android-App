@@ -10,11 +10,12 @@ import java.lang.Exception
 
 class DeparturesDatabaseProvider(private val api: MtdApi, private val stopDao: StopDao, private val favoritesDao: FavoritesDao): BaseRepository() {
 
-    suspend fun getStopName(stopId: String): String? {
+    fun getStopName(stopId: String): String? {
         return stopDao.getStopNameById(stopId)
     }
 
     suspend fun getDepartures(stopId: String): MutableList<Departure>? {
+        println("UPDATING DEPARTURES")
         // Call query asynchronously
         try {
             val response = safeApiCall(
@@ -28,7 +29,7 @@ class DeparturesDatabaseProvider(private val api: MtdApi, private val stopDao: S
     }
 
     // Returns whether it is now a favorite stop
-    suspend fun updateFavorite(stopName: String, stopId: String): Boolean {
+    fun updateFavorite(stopName: String, stopId: String): Boolean {
         if (favoritesDao.containsStop(stopId) > 0) {
             favoritesDao.delete(stopId)
             return false
@@ -40,7 +41,7 @@ class DeparturesDatabaseProvider(private val api: MtdApi, private val stopDao: S
         }
     }
 
-    suspend fun isFavorite(stopId: String): Boolean {
+    fun isFavorite(stopId: String): Boolean {
         return favoritesDao.containsStop(stopId) > 0
     }
 

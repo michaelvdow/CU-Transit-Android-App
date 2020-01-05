@@ -30,7 +30,6 @@ class DeparturesFragment: Fragment(), OnRefreshListener, DeparturesListAdapter.O
     private lateinit var viewModel: DeparturesViewModel
     private lateinit var binding: FragmentDeparturesBinding
     private lateinit var adapter: DeparturesListAdapter
-    private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private var favoriteItem: MenuItem? = null
 
 
@@ -84,7 +83,7 @@ class DeparturesFragment: Fragment(), OnRefreshListener, DeparturesListAdapter.O
         adapter.setOnLongClickListener(this)
 
         //Create swipe refresh layout
-        swipeRefreshLayout = binding.departureSwipeRefresh
+        var swipeRefreshLayout = binding.departureSwipeRefresh
         swipeRefreshLayout?.setColorSchemeColors(
             ContextCompat.getColor(
                 context!!,
@@ -121,7 +120,8 @@ class DeparturesFragment: Fragment(), OnRefreshListener, DeparturesListAdapter.O
 
     private fun observeViewModel(viewModel: DeparturesViewModel) {
         viewModel.refreshing.observe(viewLifecycleOwner, Observer {refreshing ->
-            swipeRefreshLayout?.isRefreshing = refreshing
+            binding.departureSwipeRefreshEmptyText?.isRefreshing = refreshing
+            binding.departureSwipeRefresh?.isRefreshing = refreshing
         })
 
         viewModel.departures.observe(viewLifecycleOwner, Observer {departures ->

@@ -210,9 +210,8 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
             polylineOptions.add(LatLng(shape.shape_pt_lat, shape.shape_pt_lon))
         }
         try {
-            val color = viewModel.departure.route.route_color
             map.addPolyline(
-                polylineOptions.color(Color.parseColor("#ff$color"))
+                polylineOptions.color(ContextCompat.getColor(context!!, R.color.colorPrimary))
                     .width(15f)
                     .endCap(RoundCap())
 
