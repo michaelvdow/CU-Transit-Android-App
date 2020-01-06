@@ -54,6 +54,7 @@
     <string name="to">To</string>
     <string name="metric">Metric</string>
     <string name="dark_theme">Dark Theme</string>
+    <string name="release_notes">Release Notes</string>
     <string name="dark_mode_description">Click the settings button next to search to enable dark mode</string>
     <string name="dark_mode_title">Try the new dark mode!</string>
 </resources>

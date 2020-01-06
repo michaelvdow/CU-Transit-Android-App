@@ -19,4 +19,10 @@
         app:showAsAction="never"
         android:title="@string/dark_theme"
         android:checkable="true"/>
+
+    <item
+        android:id="@+id/releaseNotes"
+        app:showAsAction="never"
+        android:title="@string/release_notes"
+        android:checkable="false"/>
 </menu>

@@ -9,6 +9,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -27,8 +28,8 @@ class DeparturesListAdapter internal constructor(
         val routeName: TextView = itemView.findViewById(R.id.departure_route_name)
         val destination: TextView = itemView.findViewById(R.id.destination)
         val expectedTime: TextView = itemView.findViewById(R.id.expected_time)
-        val minutes: TextView = itemView.findViewById(R.id.min)
         val number: TextView = itemView.findViewById(R.id.departure_number)
+        val iStop: ImageView = itemView.findViewById(R.id.departure_i_stop)
 
         init {
             itemView.setOnClickListener(this)
@@ -54,15 +55,18 @@ class DeparturesListAdapter internal constructor(
     override fun onBindViewHolder(holder: DeparturesViewHolder, position: Int) {
         // Set text for row
         val departure = departures.get(position)
-//        holder.routeName.text = departure.headsign
         holder.destination.text = holder.itemView.context.getString(R.string.to) + " " + departure.trip.trip_headsign
         holder.expectedTime.text = departure.expected_mins.toString()
+
+        // I stop
+        if (!departure.is_istop) {
+            holder.iStop.visibility = View.GONE
+        }
 
         // Set color for row
         val rowColor = Color.parseColor("#" + departure.route.route_color)
         val textColor = Color.parseColor("#" + departure.route.route_text_color)
 
-//        val parts = departure.headsign.split(" ", limit=2)
         holder.routeName.text = departure.headsign
 
         holder.number.text = departure.route.route_short_name

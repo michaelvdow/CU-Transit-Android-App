@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
+            android:paddingTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:scrollbars="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:paddingLeft="24dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:textColor="?attr/themeTextColor"
+                android:text="Version 3.0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="?attr/themeTextColor"
+                android:text="New features and bug fixes"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:textColor="?attr/themeTextColor"
+                android:text="Dark Mode"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="?attr/themeTextColor"
+                android:text="Click the 3 dot menu button to change to dark mode"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:textColor="?attr/themeTextColor"
+                android:text="Reorder favorites"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="?attr/themeTextColor"
+                android:text="Click and drag the reorder button to move favorites"
+                android:paddingBottom="8dp"/>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="?attr/themeTextColor"
+                    android:text="Reorder button:"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="8dp"/>
+                <ImageView
+                    android:id="@+id/handle"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_reorder" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24dp"
+                    android:textColor="?attr/themeTextColor"
+                    android:text="iStops"/>
+                <ImageView
+                    android:id="@+id/iStop"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:scaleType="center"
+                    android:layout_gravity="center"
+                    android:paddingLeft="8dp"
+                    android:src="@drawable/ic_i_stop" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="?attr/themeTextColor"
+                android:text="See which bus routes are iStops when viewing departures"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:textColor="?attr/themeTextColor"
+                android:text="Bug fixes"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="?attr/themeTextColor"
+                android:text="Updated stops, routes, and departures, and fixed crashes"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:textColor="?attr/themeTextColor"
+                android:text="Feedback"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="?attr/themeTextColor"
+                android:autoLink="email|web"
+                android:text="If you have any issues, you can email your feedback to cutransitdeveloper@gmail.com. If you've enoyed the app, please give it a 5 star review!"
+                android:paddingBottom="8dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

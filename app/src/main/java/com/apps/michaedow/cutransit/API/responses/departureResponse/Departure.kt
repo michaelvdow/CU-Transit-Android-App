@@ -8,6 +8,7 @@ data class Departure (
     var route: Route,
     var trip: Trip,
     var vehicle_id: String,
+    var is_istop: Boolean,
     var expected: String,
     var expected_mins: Int
 ) : Serializable

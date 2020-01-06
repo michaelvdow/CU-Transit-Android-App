@@ -1,8 +1,13 @@
 package com.apps.michaedow.cutransit.main_activity
 
 import android.Manifest
+import android.app.Dialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.Window
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -33,6 +38,36 @@ class MainActivity : AppCompatActivity() {
         BetterLocationProvider(this)
     }
 
+    override fun onStart() {
+        super.onStart()
+        showChangeLog()
+    }
+
+
+    private fun showChangeLog() {
+            val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        if (prefs.getString("lastChangeLogVersion", "1.0.0") != "3.0.0") {
+
+            val builder: AlertDialog.Builder? = this.let {
+                AlertDialog.Builder(it, R.style.AlertDialogTheme)
+            }
+
+            builder?.setTitle("Release Notes")
+                ?.setView(R.layout.dialog_changelog)
+
+            builder?.apply {
+                setPositiveButton("OK",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        dialog.dismiss()
+                        val editor = prefs.edit()
+                        editor.putString("lastChangeLogVersion", "3.0.0")
+                        editor.apply()
+                    })
+            }
+
+            builder?.create()?.show()
+        }
+    }
 
     // Request location permissions
     // Restart if failed to get permission

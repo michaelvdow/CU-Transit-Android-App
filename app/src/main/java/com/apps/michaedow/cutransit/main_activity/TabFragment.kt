@@ -1,10 +1,13 @@
 package com.apps.michaedow.cutransit.main_activity
 
+import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
@@ -41,6 +44,26 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
 
         return binding.root
     }
+
+    private fun showChangeLog() {
+        if (context != null) {
+            val builder: AlertDialog.Builder? = this.let {
+                AlertDialog.Builder(context as Context, R.style.AlertDialogTheme)
+            }
+
+            builder?.setTitle("Release Notes")
+                ?.setView(R.layout.dialog_changelog)
+
+            builder?.apply {
+                setPositiveButton("OK",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        dialog.dismiss()
+                    })
+            }
+            builder?.create()?.show()
+        }
+    }
+
 
     // Run things that need context
     override fun onAttach(context: Context) {
@@ -147,6 +170,8 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
             val intent = activity?.intent
             activity?.finish()
             startActivity(intent)
+        } else if (id == R.id.releaseNotes) {
+            showChangeLog()
         }
 
         return super.onOptionsItemSelected(item)
