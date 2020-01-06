@@ -79,7 +79,7 @@ class NotificationService: Service() {
 
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(departure.expected_mins.toString() + " " + getString(R.string.minutes))
-            .setSmallIcon(R.drawable.ic_bus_marker)
+            .setSmallIcon(R.drawable.ic_stop_marker)
             .setAutoCancel(false)
             .setContentText(getString(R.string.until) + " " + departure.headsign + " " + getString(R.string.arrives))
             .setContentIntent(pendingIntent)
@@ -97,7 +97,7 @@ class NotificationService: Service() {
         val cancelIntent = Intent("com.apps.michaeldow.cutransit.cancelNotification")
         cancelIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         val pendingCancelIntent = PendingIntent.getBroadcast(baseContext, 0, cancelIntent, PendingIntent.FLAG_CANCEL_CURRENT)
-        notificationBuilder.addAction(R.drawable.ic_bus_marker, getString(R.string.dismiss), pendingCancelIntent)
+        notificationBuilder.addAction(R.drawable.ic_stop_marker, getString(R.string.dismiss), pendingCancelIntent)
 
         startForeground(notificationId, notificationBuilder.build())
 

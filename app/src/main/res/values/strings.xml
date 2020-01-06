@@ -32,7 +32,7 @@
     <string name="swipe_to_dismiss">Swipe to dismiss</string>
 
     <string name="updated_departures">Departures updated</string>
-    <string name="no_data_found">No data found from CUMTD</string>
+    <string name="no_data_found">No departures found</string>
     <string name="dismiss">Dismiss</string>
     <string name="minutes">min</string>
     <string name="no_routes_found">No bus routes found at this time</string>

@@ -10,6 +10,8 @@
         <item name="themeSoftTextColor">@color/colorSoftText</item>
         <item name="themeStatusBarColor">@color/statusBarLight</item>
         <item name="themeDialogTextColor">@color/colorPrimary</item>
+        <item name="colorOnSurface">@color/colorDarkBackground</item>
+        <item name = "actionMenuTextColor">@color/colorDarkText</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 

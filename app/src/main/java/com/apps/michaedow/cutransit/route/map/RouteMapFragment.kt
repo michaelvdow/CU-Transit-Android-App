@@ -6,8 +6,6 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
-import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -20,7 +18,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.apps.michaedow.cutransit.API.ApiFactory
 import com.apps.michaedow.cutransit.API.responses.departureResponse.Departure
 import com.apps.michaedow.cutransit.API.responses.shapeResponse.Shape
 import com.apps.michaedow.cutransit.API.responses.stopTimesResponse.StopTime
@@ -30,7 +27,6 @@ import com.apps.michaedow.cutransit.databinding.FragmentRouteMapBinding
 import com.apps.michaedow.cutransit.route.RouteFragmentDirections
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
-import kotlinx.coroutines.launch
 
 class RouteMapFragment: Fragment(), OnMapReadyCallback {
 
@@ -168,7 +164,7 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
     private fun setupStops(stopTimes: List<StopTime>) {
         for (stopTime in stopTimes) {
             val location = LatLng(stopTime.stop_point.stop_lat, stopTime.stop_point.stop_lon)
-            val icon = bitmapDescriptorFromVector(context as Context, R.drawable.ic_bus_marker, 50)
+            val icon = bitmapDescriptorFromVector(context as Context, R.drawable.ic_stop_marker, 50)
             val options = MarkerOptions()
                 .position(location)
                 .title(stopTime.stop_point.stop_name)

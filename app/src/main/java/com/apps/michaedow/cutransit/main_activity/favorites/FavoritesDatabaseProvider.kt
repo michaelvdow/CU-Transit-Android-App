@@ -10,8 +10,8 @@ class FavoritesDatabaseProvider(private val dao: FavoritesDao) {
         return dao.getFavorites()
     }
 
-    fun updateFavorite(stopName: String, rank: Int) {
-        dao.updateFavorite(stopName, rank)
+    fun updateFavorite(stopId: String, rank: Int) {
+        dao.updateFavorite(stopId, rank)
     }
 
 }

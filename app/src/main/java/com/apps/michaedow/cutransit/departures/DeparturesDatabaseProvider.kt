@@ -15,7 +15,6 @@ class DeparturesDatabaseProvider(private val api: MtdApi, private val stopDao: S
     }
 
     suspend fun getDepartures(stopId: String): MutableList<Departure>? {
-        println("UPDATING DEPARTURES")
         // Call query asynchronously
         try {
             val response = safeApiCall(

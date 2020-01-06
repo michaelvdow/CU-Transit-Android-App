@@ -6,5 +6,7 @@
     <attr name="themeTabBackgroundColor" format="reference"/>
     <attr name="themeStatusBarColor" format="reference"/>
     <attr name="themeDialogTextColor" format="reference"/>
+    <attr name="themeOnSurfaceColor" format="reference"/>
+
 
 </resources>

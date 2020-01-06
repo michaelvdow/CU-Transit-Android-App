@@ -14,57 +14,8 @@
     <color name="colorDarkText">#FFFFFF</color>
     <color name="colorSoftTextDark">#CACACA</color>
 
-    <color name="polylineColor">#FF4db6ac</color>
-
-    <color name="color_008063">#66bb6a</color>
-    <color name="color_825622">#a1887f</color>
-    <color name="color_355caa">#4db6ac</color>
-    <color name="color_eb008b">#f06292</color>
-    <color name="color_d1d3d4">#b0bec5</color>
-    <color name="color_6991">#4db6ac</color>
-    <color name="color_8063">#66bb6a</color>
-    <color name="color_a78bc0">#9575cd</color>
-    <color name="color_5a1d5a">#ba68c8</color>
-    <color name="color_808285">#bdbdbd</color>
-    <color name="color_c7994a">#ffd54f</color>
-    <color name="color_fcee1f">#fff176</color>
-    <color name="color_ed1c24">#e57373</color>
-    <color name="color_9e8966">#a1887f</color>
-    <color name="color_ffbfff">#f06292</color>
-    <color name="color_b2d235">#aed581</color>
-    <color name="color_cccccc">#cccccc</color>
-    <color name="color_0">#424242</color>
-    <color name="color_000000">#424242</color>
-    <color name="color_823822">#a1887f</color>
-    <color name="color_006991">#4db6ac</color>
-    <color name="color_2b3088">#5c6bc0</color>
-    <color name="color_ed1c23">#e57373</color>
-    <color name="color_f99f2a">#ffb74d</color>
     <color name="statusBarLight">#2b2b2b</color>
 
     <color name="tab_color">#d2ffffff</color>
     <color name="tab_selected">#FFFFFF</color>
-
-    <array name="allColors">
-        <item>@color/color_008063</item>
-        <item>@color/color_825622</item>
-        <item>@color/color_355caa</item>
-        <item>@color/color_eb008b</item>
-        <item>@color/color_d1d3d4</item>
-        <item>@color/color_6991</item>
-        <item>@color/color_8063</item>
-        <item>@color/color_a78bc0</item>
-        <item>@color/color_5a1d5a</item>
-        <item>@color/color_808285</item>
-        <item>@color/color_c7994a</item>
-        <item>@color/color_fcee1f</item>
-        <item>@color/color_ed1c24</item>
-        <item>@color/color_9e8966</item>
-        <item>@color/color_ffbfff</item>
-        <item>@color/color_b2d235</item>
-        <item>@color/color_cccccc</item>
-        <item>@color/color_0</item>
-        <item>@color/color_823822</item>
-        <item>@color/color_006991</item>
-    </array>
 </resources>

@@ -37,7 +37,7 @@ class FavoritesViewModel(application: Application): AndroidViewModel(application
         mutableUpdating.postValue(true)
         scope.launch {
             for (i in 0 until favorites.size) {
-                database.updateFavorite(favorites[i].stopName, i)
+                database.updateFavorite(favorites[i].stopId, i)
             }
             mutableUpdating.postValue(false)
         }

@@ -11,6 +11,8 @@
         <item name="themeSoftTextColor">@color/colorSoftTextDark</item>
         <item name="themeStatusBarColor">@color/colorDarkPrimary</item>
         <item name="themeDialogTextColor">@color/colorLightText</item>
+        <item name="colorOnSurface">@color/colorLightBackground</item>
+        <item name="android:textColor">@color/colorDarkText</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 

@@ -129,7 +129,7 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
         map.clear()
         val stops = viewModel.stops.value
         if (context != null && stops != null) {
-            val icon = bitmapDescriptorFromVector(context as Context, com.apps.michaedow.cutransit.R.drawable.ic_bus_marker)
+            val icon = bitmapDescriptorFromVector(context as Context, com.apps.michaedow.cutransit.R.drawable.ic_stop_marker)
             for (stop in stops) {
                 val markerOptions = MarkerOptions()
                     .position(LatLng(stop.stopLat.toDouble(), stop.stopLon.toDouble()))
@@ -151,7 +151,7 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
 
     // https://stackoverflow.com/questions/42365658/custom-marker-in-google-maps-in-android-with-vector-asset-icon
     private fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorDrawableResourceId: Int): BitmapDescriptor? {
-        val background = ContextCompat.getDrawable(context, com.apps.michaedow.cutransit.R.drawable.ic_bus_marker)
+        val background = ContextCompat.getDrawable(context, com.apps.michaedow.cutransit.R.drawable.ic_stop_marker)
         background!!.setBounds(0, 0, background.intrinsicWidth, background.intrinsicHeight)
         val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId)
         val bitmap = Bitmap.createBitmap(

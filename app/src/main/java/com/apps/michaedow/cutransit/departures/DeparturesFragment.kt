@@ -16,13 +16,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.apps.michaedow.cutransit.API.responses.departureResponse.Departure
 import com.apps.michaedow.cutransit.R
 import com.apps.michaedow.cutransit.Utils.Utils
 import com.apps.michaedow.cutransit.databinding.FragmentDeparturesBinding
 import com.apps.michaedow.cutransit.notification.NotificationService
+import com.google.android.material.snackbar.Snackbar
 
 
 class DeparturesFragment: Fragment(), OnRefreshListener, DeparturesListAdapter.OnDepartureLongClickListener {
@@ -130,9 +130,13 @@ class DeparturesFragment: Fragment(), OnRefreshListener, DeparturesListAdapter.O
                 if (departures.size == 0) {
                     binding.departureSwipeRefresh.visibility = View.GONE
                     binding.departureSwipeRefreshEmptyText.visibility = View.VISIBLE
+                    val snackbar = Snackbar.make(binding.departureFrameLayout, getString(R.string.no_data_found), Snackbar.LENGTH_SHORT)
+                    snackbar.show()
                 } else {
                     binding.departureSwipeRefresh.visibility = View.VISIBLE
                     binding.departureSwipeRefreshEmptyText.visibility = View.GONE
+                    val snackbar = Snackbar.make(binding.departureFrameLayout, getString(R.string.updated_departures), Snackbar.LENGTH_SHORT)
+                    snackbar.show()
                 }
             }
         })
