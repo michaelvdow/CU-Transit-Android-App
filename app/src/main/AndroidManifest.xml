@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.apps.michaedow.cutransit">
+    package="com.apps.michaeldow.cutransitcompanion">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -18,15 +18,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".slashScreen.SplashScreenActivity" android:theme="@style/SplashTheme">
+        <activity android:name="com.apps.michaeldow.cutransitcompanion.slashScreen.SplashScreenActivity" android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main_activity.MainActivity"/>
+        <activity android:name="com.apps.michaeldow.cutransitcompanion.main_activity.MainActivity"/>
 
-        <service android:name=".notification.NotificationService" />
+        <service android:name="com.apps.michaeldow.cutransitcompanion.notification.NotificationService" />
 
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDKeRdOvKFJee21o2JOUd8zPtD2BpplfK8"/>
     </application>

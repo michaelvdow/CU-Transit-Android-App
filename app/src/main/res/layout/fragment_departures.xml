@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.apps.michaedow.cutransit.departures.DeparturesViewModel" />
+            type="com.apps.michaeldow.cutransitcompanion.departures.DeparturesViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -18,7 +18,7 @@
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.apps.michaeldow.cutransit.Activities.MainActivityPackage.MainActivity">
+            tools:context="com.apps.michaeldow.cutransitcompanion.Activities.MainActivityPackage.MainActivity">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
