@@ -11,7 +11,7 @@ abstract class StopDatabase : RoomDatabase() {
     abstract fun stopDao(): StopDao
 
     companion object {
-        private const val DATABASE_NAME = "stops"
+        private const val DATABASE_NAME = "stops2"
         private const val DATABASE_PATH = "databases/stops.db"
         private var instance: StopDatabase? = null
 

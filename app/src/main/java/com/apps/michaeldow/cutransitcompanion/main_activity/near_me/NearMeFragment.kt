@@ -14,6 +14,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apps.michaeldow.cutransitcompanion.R
+import com.apps.michaeldow.cutransitcompanion.Utils.SharedPreferenceKeys
 import com.apps.michaeldow.cutransitcompanion.databinding.FragmentNearMeBinding
 import com.apps.michaeldow.cutransitcompanion.main_activity.MainActivity
 
@@ -104,7 +105,7 @@ class NearMeFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener, SharedPr
     }
 
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, s: String?) {
-        if (s?.equals("metric") ?: false) {
+        if (s?.equals(SharedPreferenceKeys.METRIC) ?: false) {
             viewModel.updateLocation()
         }
     }

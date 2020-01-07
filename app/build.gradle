@@ -15,7 +15,7 @@ android {
         applicationId "com.apps.michaeldow.cutransitcompanion"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 25
+        versionCode 27
         versionName "2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

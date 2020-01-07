@@ -50,7 +50,7 @@ class FavoritesListAdapter internal constructor(
     }
 
     override fun onBindViewHolder(holder: FavoritesViewHolder, position: Int) {
-        val current = favorites[position]
+        val current = favorites[holder.adapterPosition]
         holder.stopName.text = current.stopName
         holder.stopId = current.stopId
     }

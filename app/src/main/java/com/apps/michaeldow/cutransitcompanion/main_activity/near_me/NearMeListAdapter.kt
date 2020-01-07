@@ -12,6 +12,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.michaeldow.cutransitcompanion.R
 import com.apps.michaeldow.cutransitcompanion.Utils.Distance
+import com.apps.michaeldow.cutransitcompanion.Utils.SharedPreferenceKeys
 import com.apps.michaeldow.cutransitcompanion.database.Stops.StopItem
 import com.apps.michaeldow.cutransitcompanion.main_activity.TabFragmentDirections
 
@@ -46,9 +47,9 @@ class NearMeListAdapter internal constructor(
     }
 
     override fun onBindViewHolder(holder: NearMeViewHolder, position: Int) {
-        val current = stops[position]
+        val current = stops[holder.adapterPosition]
         holder.stopName.text = current.stopName
-        val isMetric: Boolean = prefs?.getBoolean("metric", false) ?: false
+        val isMetric: Boolean = prefs?.getBoolean(SharedPreferenceKeys.METRIC, false) ?: false
         val lat = current.stopLat.toDouble()
         val lon = current.stopLon.toDouble()
         holder.distance.text = Distance.calculateDistance(location, lat, lon, isMetric)

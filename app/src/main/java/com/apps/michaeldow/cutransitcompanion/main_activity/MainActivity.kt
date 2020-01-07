@@ -14,6 +14,7 @@ import androidx.preference.PreferenceManager
 import com.apps.michaeldow.cutransitcompanion.R
 import com.apps.michaeldow.cutransitcompanion.Utils.BetterLocationProvider
 import com.apps.michaeldow.cutransitcompanion.Utils.Permissions
+import com.apps.michaeldow.cutransitcompanion.Utils.SharedPreferenceKeys
 import com.apps.michaeldow.cutransitcompanion.databinding.ActivityMainBinding
 
 
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        if (prefs.getBoolean("darkTheme", false)) {
+        if (prefs.getBoolean(SharedPreferenceKeys.DARK_THEME, false)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

@@ -47,7 +47,7 @@ class RouteListAdapter  internal constructor(
     }
 
     override fun onBindViewHolder(holder: RouteListViewHolder, position: Int) {
-        val current = stops[position]
+        val current = stops[holder.adapterPosition]
         holder.stopName.text = current.stop_point.stop_name
         holder.time.text = Utils.fixStopTime(current.arrival_time)
 

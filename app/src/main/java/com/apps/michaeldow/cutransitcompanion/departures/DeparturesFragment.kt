@@ -2,10 +2,12 @@ package com.apps.michaeldow.cutransitcompanion.departures
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.NumberPicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -15,7 +17,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.apps.michaeldow.cutransitcompanion.API.responses.departureResponse.Departure
 import com.apps.michaeldow.cutransitcompanion.R
@@ -81,6 +85,21 @@ class DeparturesFragment: Fragment(), OnRefreshListener, DeparturesListAdapter.O
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
 
         adapter.setOnLongClickListener(this)
+
+        // Create inset divider
+//        val insetDecorator = object: RecyclerView.ItemDecoration() {
+//            override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+//                super.onDraw(c, parent, state)
+//
+//            }
+//        }
+
+        if (context != null) {
+            val itemDecoration = DividerItemDecoration(requireContext(), LinearLayout.VERTICAL)
+            val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_divider)
+            itemDecoration.setDrawable(drawable!!)
+            recyclerView.addItemDecoration(itemDecoration)
+        }
 
         //Create swipe refresh layout
         var swipeRefreshLayout = binding.departureSwipeRefresh

@@ -16,8 +16,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
-import com.apps.michaeldow.cutransitcompanion.R
 import com.apps.michaeldow.cutransitcompanion.databinding.FragmentTabsBinding
+import com.apps.michaeldow.cutransitcompanion.R
+import com.apps.michaeldow.cutransitcompanion.Utils.SharedPreferenceKeys
 import com.google.android.material.tabs.TabLayout
 
 class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
@@ -147,8 +148,8 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_main, menu)
-        menu.findItem(R.id.metric)?.isChecked = prefs.getBoolean("metric", false)
-        menu.findItem(R.id.darkTheme)?.isChecked = prefs.getBoolean("darkTheme", false)
+        menu.findItem(R.id.metric)?.isChecked = prefs.getBoolean(SharedPreferenceKeys.METRIC, false)
+        menu.findItem(R.id.darkTheme)?.isChecked = prefs.getBoolean(SharedPreferenceKeys.DARK_THEME, false)
         createSearch(menu)
     }
 
@@ -156,12 +157,12 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
         val id = item.itemId
         if (id == R.id.metric) {
             val editor = prefs.edit()
-            editor.putBoolean("metric", !item.isChecked)
+            editor.putBoolean(SharedPreferenceKeys.METRIC, !item.isChecked)
             editor.apply()
             item.isChecked = !item.isChecked
         } else if (id == R.id.darkTheme) {
             val editor = prefs.edit()
-            editor.putBoolean("darkTheme", !item.isChecked)
+            editor.putBoolean(SharedPreferenceKeys.DARK_THEME, !item.isChecked)
             editor.apply()
             item.isChecked = !item.isChecked
 

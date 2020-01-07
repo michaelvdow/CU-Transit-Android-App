@@ -6,6 +6,7 @@ import android.graphics.BlendModeColorFilter
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
+import android.text.style.ImageSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,13 +55,14 @@ class DeparturesListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: DeparturesViewHolder, position: Int) {
         // Set text for row
-        val departure = departures.get(position)
+        val departure = departures[holder.adapterPosition]
         holder.destination.text = holder.itemView.context.getString(R.string.to) + " " + departure.trip.trip_headsign
         holder.expectedTime.text = departure.expected_mins.toString()
 
-        // I stop
-        if (!departure.is_istop) {
-            holder.iStop.visibility = View.GONE
+//        // I stop
+        if (departure.is_istop) {
+            println("${departure.headsign} IS I STOP")
+            holder.iStop.setImageResource(R.drawable.ic_i_stop)
         }
 
         // Set color for row

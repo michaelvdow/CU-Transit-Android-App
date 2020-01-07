@@ -11,7 +11,7 @@ abstract class FavoritesDatabase : RoomDatabase() {
     abstract fun favoritesDao(): FavoritesDao
 
     companion object {
-        private const val DATABASE_NAME = "favorites"
+        private const val DATABASE_NAME = "favorites2"
         private var instance: FavoritesDatabase? = null
 
         @Synchronized
