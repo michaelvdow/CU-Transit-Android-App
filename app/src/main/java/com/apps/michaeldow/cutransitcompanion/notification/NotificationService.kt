@@ -17,15 +17,14 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.apps.michaeldow.cutransitcompanion.API.ApiFactory
-import com.apps.michaeldow.cutransitcompanion.API.responses.departureResponse.Departure
 import com.apps.michaeldow.cutransitcompanion.API.responses.DeparturesResponse
+import com.apps.michaeldow.cutransitcompanion.API.responses.departureResponse.Departure
 import com.apps.michaeldow.cutransitcompanion.R
-import com.apps.michaeldow.cutransitcompanion.main_activity.MainActivity
+import com.apps.michaeldow.cutransitcompanion.views.main_activity.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 
@@ -79,8 +78,8 @@ class NotificationService: Service() {
 
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(departure.expected_mins.toString() + " " + getString(R.string.minutes))
-            .setSmallIcon(R.drawable.ic_stop_marker)
             .setAutoCancel(false)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentText(getString(R.string.until) + " " + departure.headsign + " " + getString(R.string.arrives))
             .setContentIntent(pendingIntent)
             .setVibrate(longArrayOf(0))
@@ -97,7 +96,7 @@ class NotificationService: Service() {
         val cancelIntent = Intent("com.apps.michaeldow.cutransitcompanion.cancelNotification")
         cancelIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         val pendingCancelIntent = PendingIntent.getBroadcast(baseContext, 0, cancelIntent, PendingIntent.FLAG_CANCEL_CURRENT)
-        notificationBuilder.addAction(R.drawable.ic_stop_marker, getString(R.string.dismiss), pendingCancelIntent)
+        notificationBuilder.addAction(R.drawable.ic_cancel, getString(R.string.dismiss), pendingCancelIntent)
 
         startForeground(notificationId, notificationBuilder.build())
 
@@ -120,10 +119,10 @@ class NotificationService: Service() {
         val handler = Handler()
         runnable = Runnable {
             if (running) {
-                val api = ApiFactory.mtdApi
                 try {
+                    val api = ApiFactory.mtdApi
                     scope.launch {
-                        val response = api.getDeparturesByStop(departure.stop_id, 30, 30).await()
+                        val response = api.getDeparturesByStop(departure.stop_id, 45, 45).await()
                         if (response.isSuccessful) {
                             updateNotificationUI(response.body())
                         }
@@ -132,13 +131,12 @@ class NotificationService: Service() {
 
                 }
 
-
                 handler.postDelayed(runnable, checkDuration)
             } else {
                 stopSelf()
             }
         }
-        handler.postDelayed(runnable, checkDuration)
+        handler.postDelayed(runnable, 0)
     }
 
     private fun updateNotificationUI(response: DeparturesResponse?) {
@@ -154,11 +152,14 @@ class NotificationService: Service() {
                     if (!notified && timeLeft <= alarmTime) {
 
                         notificationBuilder.setChannelId(ALARM_CHANNEL_ID)
+                        notificationBuilder.setDefaults(NotificationCompat.DEFAULT_ALL)
                         notificationBuilder.priority = NotificationCompat.PRIORITY_MAX
+                        notificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                         notificationBuilder.setVibrate(longArrayOf(300, 750, 300, 750, 300))
-                        notificationBuilder.setDefaults(NotificationCompat.DEFAULT_LIGHTS or NotificationCompat.DEFAULT_SOUND)
                         notificationBuilder.setContentTitle(departure.expected_mins.toString() + " " + getString(R.string.minutes))
-                        manager?.notify(notificationId, notificationBuilder.build())
+                        val notification = notificationBuilder.build()
+                        notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                        manager?.notify(notificationId, notification)
                         notificationBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         notificationBuilder.setVibrate(longArrayOf(0))
                         notificationBuilder.setDefaults(0)
@@ -176,6 +177,7 @@ class NotificationService: Service() {
 
 
     private fun createNotificationChannel() {
+        manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val serviceChannel = NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT)
             serviceChannel.vibrationPattern = longArrayOf(0)

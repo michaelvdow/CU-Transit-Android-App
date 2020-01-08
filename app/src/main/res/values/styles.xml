@@ -9,7 +9,8 @@
         <item name="themeTabBackgroundColor">@color/colorPrimary</item>
         <item name="themeSoftTextColor">@color/colorSoftText</item>
         <item name="themeStatusBarColor">@color/statusBarLight</item>
-        <item name="themeDialogTextColor">@color/colorPrimary</item>
+        <item name="themeDialogTextColor">@color/colorDarkText</item>
+        <item name="themeDialogButtonColor">@color/colorPrimary</item>
         <item name="colorOnSurface">@color/colorDarkBackground</item>
         <item name="actionMenuTextColor">@color/colorDarkText</item>
         <item name="android:windowActionBarOverlay">true</item>
@@ -31,9 +32,17 @@
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
-
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="RateDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+    </style>
+
+    <style name="RateButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">

@@ -136,7 +136,7 @@
                 android:textSize="16dp"
                 android:textColor="?attr/themeTextColor"
                 android:autoLink="email|web"
-                android:text="If you have any issues, you can email your feedback to cutransitdeveloper@gmail.com. If you've enoyed the app, please give it a 5 star review!"
+                android:text="If you have any issues, you can email your feedback to cutransitdeveloper@gmail.com. If you've enjoyed the app, please leave a review!"
                 android:paddingBottom="8dp"/>
 
         </LinearLayout>

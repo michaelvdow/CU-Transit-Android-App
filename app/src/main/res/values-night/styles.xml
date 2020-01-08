@@ -10,7 +10,8 @@
         <item name="themeTabBackgroundColor">@color/colorDarkPrimary</item>
         <item name="themeSoftTextColor">@color/colorSoftTextDark</item>
         <item name="themeStatusBarColor">@color/colorDarkPrimary</item>
-        <item name="themeDialogTextColor">@color/colorLightText</item>
+        <item name="themeDialogTextColor">@color/colorDarkText</item>
+        <item name="themeDialogButtonColor">@color/colorAccent</item>
         <item name="colorOnSurface">@color/colorLightBackground</item>
         <item name="android:textColor">@color/colorDarkText</item>
         <item name="android:windowActionBarOverlay">true</item>
@@ -34,6 +35,18 @@
 
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="RateDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/RateButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/RateButton</item>
+        <item name="buttonBarNeutralButtonStyle">@style/RateButton</item>
+    </style>
+
+    <style name="RateButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">

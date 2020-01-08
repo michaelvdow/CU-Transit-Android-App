@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.apps.michaeldow.cutransitcompanion.departures.DeparturesViewModel" />
+            type="com.apps.michaeldow.cutransitcompanion.views.departures.DeparturesViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

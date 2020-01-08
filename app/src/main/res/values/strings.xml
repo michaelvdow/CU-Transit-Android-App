@@ -24,10 +24,9 @@
     <string name="dialog_set">Set</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="rate_message">If you enjoy using this app, would you mind taking a moment to rate it? It won\'t take more than a minute. Thank you for your support!</string>
-    <string name="please_rate">Hey there! You seem to like this app, would you mind visiting the Play Store and give a rating? It would help us a great deal! \n\nIf instead you hate this app, we would love to hear your feedback so we can improve. Thanks!</string>
-    <string name="button_yes">Rate!</string>
-    <string name="button_no">No thanks</string>
-    <string name="button_feedback">Give feedback</string>
+    <string name="button_rate">Rate</string>
+    <string name="button_no_rate">No, thanks</string>
+    <string name="button_remind_me_later">Later</string>
     <string name="button_dont_ask">Don’t ask again</string>
     <string name="swipe_to_dismiss">Swipe to dismiss</string>
 

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.apps.michaeldow.cutransitcompanion.main_activity.near_me.NearMeViewModel" />
+            type="com.apps.michaeldow.cutransitcompanion.views.main_activity.near_me.NearMeViewModel" />
     </data>
 
     <FrameLayout

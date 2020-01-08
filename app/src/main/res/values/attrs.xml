@@ -7,6 +7,7 @@
     <attr name="themeStatusBarColor" format="reference"/>
     <attr name="themeDialogTextColor" format="reference"/>
     <attr name="themeOnSurfaceColor" format="reference"/>
+    <attr name="themeDialogButtonColor" format="reference"/>
 
 
 </resources>

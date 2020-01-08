@@ -50,6 +50,8 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="16dp"
                     android:layout_gravity="center_vertical"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_i_stop"
                     />
             </LinearLayout>
 

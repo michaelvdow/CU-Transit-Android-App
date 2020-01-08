@@ -27,6 +27,16 @@ class Utils {
             }
             return betterDate
         }
+
+        fun fixLastUpdatedTime(time: String): String {
+            // 2013-03-04T15:19:33-06:00
+            val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX")
+            val date: Date = format.parse(time)
+
+            val betterFormat: DateFormat = SimpleDateFormat("h:mm a")
+            var betterDate = betterFormat.format(date)
+            return "Last updated: $betterDate"
+        }
     }
 
 }

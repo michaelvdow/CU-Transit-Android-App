@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/departuresFragment"
-        android:name="com.apps.michaeldow.cutransitcompanion.departures.DeparturesFragment"
+        android:name="com.apps.michaeldow.cutransitcompanion.views.departures.DeparturesFragment"
         android:label="DeparturesFragment">
         <argument
             android:name="stop_id"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/tabFragment"
-        android:name="com.apps.michaeldow.cutransitcompanion.main_activity.TabFragment"
+        android:name="com.apps.michaeldow.cutransitcompanion.views.main_activity.TabFragment"
         android:label="TabFragment" >
         <action
             android:id="@+id/action_tabFragment_to_departuresFragment"
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/routeFragment"
-        android:name="com.apps.michaeldow.cutransitcompanion.route.RouteFragment"
+        android:name="com.apps.michaeldow.cutransitcompanion.views.route.RouteFragment"
         android:label="RouteFragment" >
         <argument
             android:name="departure"

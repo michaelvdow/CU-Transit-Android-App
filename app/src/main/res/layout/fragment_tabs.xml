@@ -4,7 +4,7 @@
     <data>
         <variable
             name="data"
-            type="com.apps.michaeldow.cutransitcompanion.main_activity.TabFragmentViewModel" />
+            type="com.apps.michaeldow.cutransitcompanion.views.main_activity.TabFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
