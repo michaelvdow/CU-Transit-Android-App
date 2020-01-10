@@ -14,7 +14,7 @@
         <action
             android:id="@+id/action_departuresFragment_to_routeFragment"
             app:destination="@id/routeFragment" />
-        <deepLink app:uri="www.cutransit.com/departures/{stop_id}" />
+        <deepLink app:uri="http://www.cutransit.com/departures/{stop_id}" />
     </fragment>
     <fragment
         android:id="@+id/tabFragment"

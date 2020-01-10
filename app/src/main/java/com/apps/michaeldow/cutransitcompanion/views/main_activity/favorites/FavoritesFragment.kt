@@ -1,17 +1,27 @@
 package com.apps.michaeldow.cutransitcompanion.views.main_activity.favorites
 
+import android.content.ComponentName
+import android.content.Intent
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
+import android.graphics.drawable.Icon
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.michaeldow.cutransitcompanion.R
 import com.apps.michaeldow.cutransitcompanion.database.Favorites.FavoritesItem
 import com.apps.michaeldow.cutransitcompanion.databinding.FragmentFavoritesBinding
+import com.apps.michaeldow.cutransitcompanion.views.main_activity.MainActivity
 
 
 class FavoritesFragment: Fragment(), FavoritesListAdapter.ReorderListener {
@@ -21,6 +31,7 @@ class FavoritesFragment: Fragment(), FavoritesListAdapter.ReorderListener {
     private lateinit var adapter: FavoritesListAdapter
     private val observer = Observer<List<FavoritesItem>> { favorites ->
         adapter.setFavorites(favorites as ArrayList<FavoritesItem>)
+        updateShortcuts(favorites)
         if (favorites.size == 0) {
             binding.favoritesEmptyText.visibility = View.VISIBLE
             binding.favoritesList.visibility = View.GONE
@@ -69,5 +80,41 @@ class FavoritesFragment: Fragment(), FavoritesListAdapter.ReorderListener {
     override fun onReorder() {
         val favorites = adapter.favorites
         viewModel.updateFavoritesOrder(favorites)
+        updateShortcuts(favorites)
+    }
+
+    private fun updateShortcuts(favorites: ArrayList<FavoritesItem>) {
+        val context = context
+        if (context != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                val shortcutManager = getSystemService<ShortcutManager>(context, ShortcutManager::class.java)
+                val shortcuts = ArrayList<ShortcutInfo>()
+                for (i in 0 until min(4, favorites.size)) {
+
+                    val intent = Intent().apply {
+                        setAction(Intent.ACTION_VIEW)
+                        setComponent(ComponentName(context, MainActivity::class.java))
+                        setData(Uri.parse("http://www.cutransit.com/departures/${favorites[i].stopId}"))
+                    }
+
+                    val shortcut = ShortcutInfo.Builder(context, "id$i")
+                        .setShortLabel(favorites[i].stopName)
+                        .setLongLabel(favorites[i].stopName)
+                        .setIcon(Icon.createWithResource(context, R.drawable.ic_shortcut))
+                        .setIntent(intent)
+                        .build()
+
+                    shortcuts.add(shortcut)
+                }
+                shortcutManager?.dynamicShortcuts = shortcuts
+            }
+        }
+    }
+
+    private fun min(a: Int, b: Int): Int {
+        if (a < b) {
+            return a
+        }
+        return b
     }
 }
