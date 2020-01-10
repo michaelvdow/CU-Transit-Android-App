@@ -2,10 +2,10 @@ package com.apps.michaeldow.cutransitcompanion.API
 
 import com.apps.michaeldow.cutransitcompanion.BuildConfig
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
+import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.io.IOException
 
 // REFERENCE: https://android.jlelse.eu/android-networking-in-2019-retrofit-with-kotlins-coroutines-aefe82c4d777
 object ApiFactory  {
@@ -18,7 +18,12 @@ object ApiFactory  {
             .newBuilder()
             .url(newUrl)
             .build()
-        chain.proceed(newRequest)
+        try {
+            chain.proceed(newRequest)
+        } catch (e: Exception) {
+            Response.Builder().request(chain.request()).protocol(Protocol.HTTP_2).code(400).message("FAILED").body(
+                ResponseBody.create(MediaType.get("text/plain"), "failed")).build()
+        }
     }
 
     private val mtdClient = OkHttpClient().newBuilder()

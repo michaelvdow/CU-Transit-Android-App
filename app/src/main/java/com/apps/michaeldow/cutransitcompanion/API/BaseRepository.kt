@@ -3,6 +3,8 @@ package com.apps.michaeldow.cutransitcompanion.API
 import android.util.Log
 import retrofit2.Response
 import java.io.IOException
+import java.net.Socket
+import java.net.SocketTimeoutException
 
 open class BaseRepository{
 
@@ -22,9 +24,15 @@ open class BaseRepository{
     }
 
     private suspend fun <T: Any> safeApiResult(call: suspend ()-> Response<T>, errorMessage: String) : Result<T>{
-        val response = call.invoke()
-        if(response.isSuccessful) return Result.Success(response.body()!!)
+        try {
+            val response = call.invoke()
+            if(response.isSuccessful) return Result.Success(response.body()!!)
 
-        return Result.Error(IOException("Error Occurred during getting safe Api result, Custom ERROR - $errorMessage"))
+            return Result.Error(IOException("Error Occurred during getting safe Api result, Custom ERROR - $errorMessage"))
+        } catch (e: SocketTimeoutException) {
+            return Result.Error(e)
+        } catch (t: Throwable) {
+            return Result.Error(IOException("Error occurec"))
+        }
     }
 }

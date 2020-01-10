@@ -12,10 +12,13 @@ import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavDeepLinkBuilder
+import androidx.navigation.Navigation
 import com.apps.michaeldow.cutransitcompanion.API.ApiFactory
 import com.apps.michaeldow.cutransitcompanion.API.responses.DeparturesResponse
 import com.apps.michaeldow.cutransitcompanion.API.responses.departureResponse.Departure
@@ -25,6 +28,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.net.SocketTimeoutException
 import kotlin.coroutines.CoroutineContext
 
 
@@ -73,8 +77,17 @@ class NotificationService: Service() {
         alarmTime = intent?.getIntExtra("alarmTime", 1)
         createNotificationChannel()
 
-        val notificationIntent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+        val args = Bundle().apply {
+            putString("stop_id", departure.stop_id)
+        }
+
+        val pendingIntent = NavDeepLinkBuilder(applicationContext)
+            .setComponentName(MainActivity::class.java)
+            .setGraph(R.navigation.nav_graph)
+            .setDestination(R.id.departuresFragment)
+            .setArguments(args)
+            .createPendingIntent()
+
 
         notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(departure.expected_mins.toString() + " " + getString(R.string.minutes))
@@ -127,9 +140,11 @@ class NotificationService: Service() {
                             updateNotificationUI(response.body())
                         }
                     }
-                } catch (e: Exception) {
+                } catch (e: SocketTimeoutException) {
 
-                }
+
+                } catch (e: Throwable) {}
+
 
                 handler.postDelayed(runnable, checkDuration)
             } else {

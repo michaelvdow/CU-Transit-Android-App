@@ -187,7 +187,6 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
         runnable = Runnable {
             if (running) {
                 viewModel.updateBusLocation()
-                println("UPDATING LOCATION")
 
                 handler.postDelayed(runnable, checkDuration)
             }

@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         AppRater.appLaunched(this)
     }
 
-
     private fun showChangeLog() {
             val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         if (prefs.getString("lastChangeLogVersion", "1.0.0") != "3.0.0") {

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.apps.michaeldow.cutransitcompanion">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.apps.michaeldow.cutransitcompanion.views.slashScreen.SplashScreenActivity"
+        <activity
+            android:name="com.apps.michaeldow.cutransitcompanion.views.slashScreen.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -28,11 +29,15 @@
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name="com.apps.michaeldow.cutransitcompanion.views.main_activity.MainActivity"/>
+            android:name="com.apps.michaeldow.cutransitcompanion.views.main_activity.MainActivity">
+            <nav-graph android:value="@navigation/nav_graph" />
+        </activity>
 
         <service android:name="com.apps.michaeldow.cutransitcompanion.notification.NotificationService" />
 
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDKeRdOvKFJee21o2JOUd8zPtD2BpplfK8"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDKeRdOvKFJee21o2JOUd8zPtD2BpplfK8" />
     </application>
 
 </manifest>
