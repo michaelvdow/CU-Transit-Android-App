@@ -17,25 +17,33 @@ class Utils {
         }
 
         fun fixStopTime(time: String): String {
-            val format = SimpleDateFormat("HH:mm:ss")
-            val date: Date = format.parse(time)
+            try {
+                val format = SimpleDateFormat("HH:mm:ss")
+                val date: Date = format.parse(time)
 
-            val betterFormat: DateFormat = SimpleDateFormat("h:mm a")
-            var betterDate = betterFormat.format(date)
-            if (betterDate.length == 7) {
-                return " $betterDate"
+                val betterFormat: DateFormat = SimpleDateFormat("h:mm a")
+                var betterDate = betterFormat.format(date)
+                if (betterDate.length == 7) {
+                    return " $betterDate"
+                }
+                return betterDate
+            } catch (e: java.lang.Exception) {
+                return ""
             }
-            return betterDate
         }
 
         fun fixLastUpdatedTime(time: String): String {
             // 2013-03-04T15:19:33-06:00
-            val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX")
-            val date: Date = format.parse(time)
+            try {
+                val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ")
+                val date: Date = format.parse(time)
 
-            val betterFormat: DateFormat = SimpleDateFormat("h:mm a")
-            var betterDate = betterFormat.format(date)
-            return "Last updated: $betterDate"
+                val betterFormat: DateFormat = SimpleDateFormat("h:mm a")
+                var betterDate = betterFormat.format(date)
+                return "Last updated: $betterDate"
+            } catch (e: Exception) {
+                return ""
+            }
         }
     }
 
