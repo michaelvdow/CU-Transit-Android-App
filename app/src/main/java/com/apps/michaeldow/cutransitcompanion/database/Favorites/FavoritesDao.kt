@@ -11,8 +11,8 @@ interface FavoritesDao {
     @Insert
     fun insert(favoriteItem: FavoritesItem?): Long
 
-    @Query("DELETE FROM favorites WHERE stop_name = :stopName")
-    fun delete(stopName: String?)
+    @Query("DELETE FROM favorites WHERE stop_id = :stopId")
+    fun delete(stopId: String?)
 
     @Query("SELECT * FROM favorites ORDER BY rank ASC")
     fun getFavorites(): LiveData<List<FavoritesItem>>
