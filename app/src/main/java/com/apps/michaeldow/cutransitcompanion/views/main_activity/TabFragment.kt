@@ -82,9 +82,11 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
 
         viewModel.mutableStopId.observe(viewLifecycleOwner, Observer { stopId ->
             if (stopId != null) {
-                val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(stopId)
-                view?.findNavController()?.navigate(action)
-                viewModel.mutableStopId.postValue(null)
+                if (view?.findNavController()?.currentDestination?.id== R.id.tabFragment) {
+                    val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(stopId)
+                    view?.findNavController()?.navigate(action)
+                    viewModel.mutableStopId.postValue(null)
+                }
             }
         })
     }

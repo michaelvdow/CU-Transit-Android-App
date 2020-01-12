@@ -17,6 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.apps.michaeldow.cutransitcompanion.API.responses.departureResponse.Departure
 import com.apps.michaeldow.cutransitcompanion.API.responses.shapeResponse.Shape
@@ -112,8 +113,10 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
         locationPermissionGranted()
         map?.setOnInfoWindowClickListener { marker ->
             if (marker.tag != null) {
-                val action = RouteFragmentDirections.actionRouteFragmentToDeparturesFragment(marker.tag as String)
-                findNavController().navigate(action)
+                if (findNavController().currentDestination?.id== R.id.routeFragment) {
+                    val action = RouteFragmentDirections.actionRouteFragmentToDeparturesFragment(marker.tag as String)
+                    findNavController().navigate(action)
+                }
             }
         }
 

@@ -30,8 +30,10 @@ class FavoritesListAdapter internal constructor(
         }
 
         override fun onClick(view: View?) {
-            val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(stopId)
-            view?.findNavController()?.navigate(action)
+            if (view?.findNavController()?.currentDestination?.id== R.id.tabFragment) {
+                val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(stopId)
+                view?.findNavController()?.navigate(action)
+            }
         }
     }
 

@@ -118,8 +118,10 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
         map.setOnInfoWindowClickListener { marker ->
             val clickedStop = marker.tag as StopItem
             viewModel.currentLocation = LatLng(clickedStop.stopLat.toDouble(), clickedStop.stopLon.toDouble())
-            val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(clickedStop.stopId)
-            findNavController().navigate(action)
+            if (findNavController().currentDestination?.id== R.id.tabFragment) {
+                val action = TabFragmentDirections.actionTabFragmentToDeparturesFragment(clickedStop.stopId)
+                findNavController().navigate(action)
+            }
         }
 
         setupMarkers()

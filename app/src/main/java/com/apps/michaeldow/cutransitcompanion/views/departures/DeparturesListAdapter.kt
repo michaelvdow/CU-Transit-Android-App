@@ -37,8 +37,10 @@ class DeparturesListAdapter internal constructor(
         }
 
         override fun onClick(view: View?) {
-            val action = DeparturesFragmentDirections.actionDeparturesFragmentToRouteFragment(departures[adapterPosition])
-            view?.findNavController()?.navigate(action)
+            if (view?.findNavController()?.currentDestination?.id== R.id.departuresFragment) {
+                val action = DeparturesFragmentDirections.actionDeparturesFragmentToRouteFragment(departures[adapterPosition])
+                view?.findNavController()?.navigate(action)
+            }
         }
 
         override fun onLongClick(view: View?): Boolean {

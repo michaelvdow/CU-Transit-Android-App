@@ -36,8 +36,10 @@ class RouteListAdapter  internal constructor(
         }
 
         override fun onClick(view: View?) {
-            val action = RouteFragmentDirections.actionRouteFragmentToDeparturesFragment(stopId)
-            view?.findNavController()?.navigate(action)
+            if (view?.findNavController()?.currentDestination?.id== R.id.routeFragment) {
+                val action = RouteFragmentDirections.actionRouteFragmentToDeparturesFragment(stopId)
+                view?.findNavController()?.navigate(action)
+            }
         }
     }
 
