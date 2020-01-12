@@ -14,6 +14,7 @@
         <item name="themeDialogButtonColor">@color/colorAccent</item>
         <item name="colorOnSurface">@color/colorLightBackground</item>
         <item name="android:textColor">@color/colorDarkText</item>
+        <item name="divider">@color/lightDivider</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 

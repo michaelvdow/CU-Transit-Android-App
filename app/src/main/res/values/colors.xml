@@ -13,6 +13,8 @@
     <color name="colorDarkBackground">#303030</color>
     <color name="colorDarkText">#FFFFFF</color>
     <color name="colorSoftTextDark">#CACACA</color>
+    <color name="darkDivider">#1F000000</color>
+    <color name="lightDivider">#1fffffff</color>
 
     <color name="statusBarLight">#2b2b2b</color>
 

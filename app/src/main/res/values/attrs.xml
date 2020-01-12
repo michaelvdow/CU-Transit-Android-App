@@ -8,6 +8,6 @@
     <attr name="themeDialogTextColor" format="reference"/>
     <attr name="themeOnSurfaceColor" format="reference"/>
     <attr name="themeDialogButtonColor" format="reference"/>
-
+    <attr name="divider" format="reference"/>
 
 </resources>

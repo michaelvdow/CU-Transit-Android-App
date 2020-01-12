@@ -13,6 +13,7 @@
         <item name="themeDialogButtonColor">@color/colorPrimary</item>
         <item name="colorOnSurface">@color/colorDarkBackground</item>
         <item name="actionMenuTextColor">@color/colorDarkText</item>
+        <item name="divider">@color/darkDivider</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 
