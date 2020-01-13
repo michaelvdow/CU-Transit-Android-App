@@ -16,9 +16,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavDeepLinkBuilder
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.michaeldow.cutransitcompanion.R
+import com.apps.michaeldow.cutransitcompanion.Utils.SharedPreferenceKeys
 import com.apps.michaeldow.cutransitcompanion.database.Favorites.FavoritesItem
 import com.apps.michaeldow.cutransitcompanion.databinding.FragmentFavoritesBinding
 import com.apps.michaeldow.cutransitcompanion.views.main_activity.MainActivity
@@ -47,6 +48,14 @@ class FavoritesFragment: Fragment(), FavoritesListAdapter.ReorderListener {
 
         viewModel = ViewModelProviders.of(this).get(FavoritesViewModel::class.java)
         observeViewModel(viewModel)
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        if (!prefs.getBoolean(SharedPreferenceKeys.OLD_FAVORITES, false)) {
+            viewModel.getOldFavorites()
+            val editor = prefs.edit()
+            editor.putBoolean(SharedPreferenceKeys.OLD_FAVORITES, true)
+            editor.apply()
+        }
 
         return binding.root
     }

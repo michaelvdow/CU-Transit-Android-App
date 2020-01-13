@@ -8,6 +8,7 @@ class SharedPreferenceKeys {
         val DONT_SHOW_AGAIN = "dontShowAgain"
         val NUMBER_OF_LAUNCHES = "numberOfLaunches"
         val DATE_OF_FIRST_LAUNCH = "dateOfFirstLaunch"
+        val OLD_FAVORITES = "oldFavorites"
     }
 
 }

@@ -6,10 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.apps.michaeldow.cutransitcompanion.database.Favorites.FavoritesDatabase
 import com.apps.michaeldow.cutransitcompanion.database.Favorites.FavoritesItem
+import com.apps.michaeldow.cutransitcompanion.database.Favorites.OldFavorites.OldFavoritesDatabase
+import com.apps.michaeldow.cutransitcompanion.database.Stops.StopDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 class FavoritesViewModel(application: Application): AndroidViewModel(application) {
@@ -40,6 +43,18 @@ class FavoritesViewModel(application: Application): AndroidViewModel(application
                 database.updateFavorite(favorites[i].stopId, i)
             }
             mutableUpdating.postValue(false)
+        }
+    }
+
+    fun getOldFavorites() {
+        scope.launch {
+            try {
+                val oldDao = OldFavoritesDatabase.getDatabase(getApplication<Application>().applicationContext).oldFavoritesDao()
+                val stopDao = StopDatabase.getDatabase(getApplication<Application>().applicationContext).stopDao()
+                database.getOldFavorites(oldDao, stopDao)
+            } catch (e: Exception) {
+                println(e)
+            }
         }
     }
 

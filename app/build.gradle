@@ -15,8 +15,8 @@ android {
         applicationId "com.apps.michaeldow.cutransitcompanion"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 32
-        versionName "3.0.0"
+        versionCode 33
+        versionName "3.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -104,4 +104,7 @@ dependencies {
     // Map
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
+
+    // Database debuggin
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 }

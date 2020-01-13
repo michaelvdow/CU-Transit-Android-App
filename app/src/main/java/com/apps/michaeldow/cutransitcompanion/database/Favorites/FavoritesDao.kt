@@ -23,6 +23,9 @@ interface FavoritesDao {
     @Query("SELECT count(*) FROM favorites WHERE stop_id = :stopId")
     fun containsStop(stopId: String?): Int
 
+    @Query("SELECT count(*) FROM favorites WHERE stop_name = :stopName")
+    fun containsStopByName(stopName: String?): Int
+
     @Query("SELECT MAX(rank) from favorites")
     fun getLastRank(): Int
 

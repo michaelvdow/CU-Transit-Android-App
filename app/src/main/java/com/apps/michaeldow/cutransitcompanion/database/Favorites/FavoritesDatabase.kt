@@ -9,7 +9,6 @@ import androidx.room.RoomDatabase
 abstract class FavoritesDatabase : RoomDatabase() {
 
     abstract fun favoritesDao(): FavoritesDao
-
     companion object {
         private const val DATABASE_NAME = "favorites2"
         private var instance: FavoritesDatabase? = null
@@ -21,6 +20,7 @@ abstract class FavoritesDatabase : RoomDatabase() {
                     .databaseBuilder(context, FavoritesDatabase::class.java, DATABASE_NAME)
                     .build()
             }
+
             return instance!!
         }
 
