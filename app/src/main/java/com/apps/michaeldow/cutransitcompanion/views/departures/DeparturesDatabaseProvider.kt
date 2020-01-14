@@ -30,11 +30,9 @@ class DeparturesDatabaseProvider(private val api: MtdApi, private val stopDao: S
     // Returns whether it is now a favorite stop
     fun updateFavorite(stopName: String, stopId: String): Boolean {
         if (favoritesDao.containsStop(stopId) > 0) {
-            println("HERE")
             favoritesDao.delete(stopId)
             return false
         } else {
-            println("HERE1")
             val lastRank = favoritesDao.getLastRank()
             val newItem = FavoritesItem(stopName, stopId, lastRank)
             favoritesDao.insert(newItem)

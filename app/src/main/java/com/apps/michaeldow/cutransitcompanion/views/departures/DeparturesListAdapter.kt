@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.michaeldow.cutransitcompanion.API.responses.departureResponse.Departure
 import com.apps.michaeldow.cutransitcompanion.R
+import com.apps.michaeldow.cutransitcompanion.Utils.Utils
 
 
 class DeparturesListAdapter internal constructor(
@@ -69,7 +70,7 @@ class DeparturesListAdapter internal constructor(
 
         // Set color for row
         val rowColor = Color.parseColor("#" + departure.route.route_color)
-        val textColor = Color.parseColor("#" + departure.route.route_text_color)
+        val textColor = Utils.getTextColor(rowColor)
 
         holder.routeName.text = departure.headsign
 

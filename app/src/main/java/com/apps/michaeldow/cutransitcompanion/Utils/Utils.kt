@@ -1,5 +1,6 @@
 package com.apps.michaeldow.cutransitcompanion.Utils
 
+import android.graphics.Color
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,9 +41,20 @@ class Utils {
 
                 val betterFormat: DateFormat = SimpleDateFormat("h:mm a")
                 var betterDate = betterFormat.format(date)
-                return "Last updated: $betterDate"
+                return "Updated: $betterDate"
             } catch (e: Exception) {
                 return ""
+            }
+        }
+
+        fun getTextColor(color: Int): Int {
+            val red = Color.red(color)
+            val green = Color.green(color)
+            val blue = Color.blue(color)
+            return if (red * 0.299 + green * 0.587 + blue * 0.114 > 186) {
+                Color.parseColor("#000000")
+            } else {
+                Color.parseColor("#ffffff")
             }
         }
     }

@@ -62,7 +62,40 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
 
         locationProvider = BetterLocationProvider.instance
 
+        setupStatusBarClick()
+
         return binding.root
+    }
+
+    private fun setupStatusBarClick() {
+        binding.routeCardView.setOnClickListener { view ->
+            var nextStopId = viewModel.bus.value?.next_stop_id
+            val stopTimes = viewModel.stopTimes.value
+            if (nextStopId != null && stopTimes != null) {
+                nextStopId = Utils.fixStopId(nextStopId)
+                // Find stop time
+                for (stopTime in stopTimes) {
+                    if (nextStopId == Utils.fixStopId(stopTime.stop_point.stop_id)) {
+                        moveCameraTo(stopTime.stop_point.stop_lat, stopTime.stop_point.stop_lon, true)
+                        // Show info window for that marker
+                        for (marker in markers) {
+                            if (marker.tag != null && Utils.fixStopId(marker.tag as String) == nextStopId) {
+                                marker.showInfoWindow()
+                            }
+                        }
+                        break
+                    }
+                }
+            }
+        }
+
+        binding.routeBusLocationButton.setOnClickListener {view ->
+            val bus = viewModel.bus.value
+            if (bus != null) {
+                val location = bus.location
+                moveCameraTo(location.lat, location.lon, true)
+            }
+        }
     }
 
     override fun onResume() {
@@ -153,6 +186,8 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
                     .zIndex(3.0f)
 
                 busMarker = map?.addMarker(options)
+
+                updateStatusBar()
             }
         })
     }
@@ -176,12 +211,39 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
                 }
                 markers.add(marker)
             }
+
+            updateStatusBar()
         }
     }
 
-    private fun moveCameraTo(lat: Double, lon: Double) {
-        map?.moveCamera(CameraUpdateFactory.newLatLng(LatLng(lat, lon)))
-        map?.moveCamera(CameraUpdateFactory.zoomTo(17f))
+    private fun updateStatusBar() {
+        val bus = viewModel.bus.value
+        val stopTimes = viewModel.stopTimes.value
+        val busNextStop = bus?.next_stop_id
+        if (stopTimes != null && bus != null && busNextStop != null) {
+            for (stopTime in stopTimes) {
+                val nextStopId = Utils.fixStopId(busNextStop)
+                if (nextStopId == Utils.fixStopId(stopTime.stop_point.stop_id)) {
+                    binding.routeNextStop.text = getString(R.string.next_stop) + " " + stopTime.stop_point.stop_name
+                    break
+                }
+            }
+        }
+        if (bus != null) {
+            binding.routeUpdated.text = Utils.fixLastUpdatedTime(bus.last_updated)
+        }
+    }
+
+    private fun moveCameraTo(lat: Double, lon: Double, animate: Boolean = false) {
+        if (animate) {
+            map?.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.Builder()
+                .target(LatLng(lat, lon))
+                .zoom(16f)
+                .build()))
+        } else {
+            map?.moveCamera(CameraUpdateFactory.newLatLng(LatLng(lat, lon)))
+            map?.moveCamera(CameraUpdateFactory.zoomTo(16f))
+        }
     }
 
     private fun setupBusHandler() {

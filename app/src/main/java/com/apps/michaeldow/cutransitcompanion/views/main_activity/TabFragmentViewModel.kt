@@ -36,7 +36,6 @@ class TabFragmentViewModel(application: Application): AndroidViewModel(applicati
             if (result != null) {
                 val newSuggestions = ArrayList<String>()
                 for (suggestion in result) {
-                    println(suggestion.result.name)
                     newSuggestions.add(suggestion.result.name)
                 }
                 mutableSuggestions.postValue(newSuggestions)

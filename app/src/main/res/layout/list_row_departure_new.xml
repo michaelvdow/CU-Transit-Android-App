@@ -80,13 +80,11 @@
             android:id="@+id/expected_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.90"
             android:gravity="bottom|center_horizontal"
             android:paddingLeft="0dp"
             android:text="5"
             android:textColor="?attr/themeTextColor"
             android:paddingRight="16dp"
-            android:paddingTop="16dp"
             android:textSize="20sp" />
 
         <TextView
@@ -95,8 +93,8 @@
             android:layout_height="wrap_content"
             android:textColor="?attr/themeTextColor"
             android:gravity="top|center_vertical|center_horizontal"
-            android:paddingBottom="16dp"
             android:paddingRight="16dp"
+            android:paddingBottom="4dp"
             android:text="@string/minutes" />
     </LinearLayout>
 
