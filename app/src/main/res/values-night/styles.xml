@@ -16,6 +16,8 @@
         <item name="android:textColor">@color/colorDarkText</item>
         <item name="divider">@color/lightDivider</item>
         <item name="android:windowActionBarOverlay">true</item>
+        <item name="snackbarStyle">@style/SnackbarStyle</item>
+
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -54,5 +56,9 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
+    <style name="SnackbarStyle" parent="@style/Widget.MaterialComponents.Snackbar">
+        <item name="android:backgroundTint">@color/colorLightBackground</item>
+        <item name="android:textColor">@color/colorLightText</item>
+    </style>
 
 </resources>

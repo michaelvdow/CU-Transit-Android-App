@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
 import android.os.Handler
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -141,7 +142,6 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
         } catch (e: Exception) {
 
         }
-        map?.setMinZoomPreference(12f)
 
         locationPermissionGranted()
         map?.setOnInfoWindowClickListener { marker ->
@@ -177,7 +177,7 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
                 if (busMarker != null) {
                     busMarker?.isVisible = false
                 }
-                val icon = bitmapDescriptorFromVector(context as Context, R.drawable.ic_bus, 60)
+                val icon = bitmapDescriptorFromVector(context as Context, R.drawable.ic_bus, 25)
                 val options = MarkerOptions()
                     .position(LatLng(bus.location.lat, bus.location.lon))
                     .icon(icon)
@@ -197,7 +197,10 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
         if (map != null) {
             for (stopTime in stopTimes) {
                 val location = LatLng(stopTime.stop_point.stop_lat, stopTime.stop_point.stop_lon)
-                val icon = bitmapDescriptorFromVector(context as Context, R.drawable.ic_stop_marker, 50)
+                var icon = bitmapDescriptorFromVector(context as Context, R.drawable.ic_stop_marker, 20)
+                if (Utils.fixStopId(stopTime.stop_point.stop_id) == Utils.fixStopId(viewModel.departure.stop_id)) {
+                    icon = bitmapDescriptorFromVector(context as Context, R.drawable.ic_stop_marker_red, 20)
+                }
                 val options = MarkerOptions()
                     .position(location)
                     .title(stopTime.stop_point.stop_name)
@@ -296,6 +299,7 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
 
     private fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorDrawableResourceId: Int, size: Int): BitmapDescriptor? {
         val background = ContextCompat.getDrawable(context, vectorDrawableResourceId)
+        var size = dpToPx(context, size.toFloat()).toInt()
         background!!.setBounds(0, 0, size, size)
         val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId)
         val bitmap = Bitmap.createBitmap(
@@ -307,6 +311,11 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
         background.draw(canvas)
         vectorDrawable!!.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
+    }
+
+    private fun dpToPx(context: Context, dp: Float): Float {
+        val metrics = context.resources.displayMetrics
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics)
     }
 
 }

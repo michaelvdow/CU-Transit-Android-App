@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.location.Location
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,17 +60,6 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
         return binding.root
     }
 
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//        var mapViewBundle = outState.getBundle(MAP_VIEW_BUNDLE_KEY)
-//        if (mapViewBundle == null) {
-//            mapViewBundle = Bundle()
-//            outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle)
-//        }
-//
-//        mapView.onSaveInstanceState(mapViewBundle)
-//    }
-
     override fun onResume() {
         super.onResume()
         mapView?.onResume()
@@ -112,7 +102,6 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
         } catch (e: Exception) {
 
         }
-        map.setMinZoomPreference(12f)
         locationPermissionGranted()
 
         map.setOnInfoWindowClickListener { marker ->
@@ -132,7 +121,7 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
         map.clear()
         val stops = viewModel.stops.value
         if (context != null && stops != null) {
-            val icon = bitmapDescriptorFromVector(context as Context, com.apps.michaeldow.cutransitcompanion.R.drawable.ic_stop_marker)
+            val icon = bitmapDescriptorFromVector(context as Context, R.drawable.ic_stop_marker, 25)
             for (stop in stops) {
                 val markerOptions = MarkerOptions()
                     .position(LatLng(stop.stopLat.toDouble(), stop.stopLon.toDouble()))
@@ -153,13 +142,14 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
     }
 
     // https://stackoverflow.com/questions/42365658/custom-marker-in-google-maps-in-android-with-vector-asset-icon
-    private fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorDrawableResourceId: Int): BitmapDescriptor? {
-        val background = ContextCompat.getDrawable(context, com.apps.michaeldow.cutransitcompanion.R.drawable.ic_stop_marker)
-        background!!.setBounds(0, 0, background.intrinsicWidth, background.intrinsicHeight)
+    private fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorDrawableResourceId: Int, size: Int): BitmapDescriptor? {
+        val background = ContextCompat.getDrawable(context, vectorDrawableResourceId)
+        var size = dpToPx(context, size.toFloat()).toInt()
+        background!!.setBounds(0, 0, size, size)
         val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId)
         val bitmap = Bitmap.createBitmap(
-            background.intrinsicWidth,
-            background.intrinsicHeight,
+            size,
+            size,
             Bitmap.Config.ARGB_8888
         )
         val canvas = Canvas(bitmap)
@@ -168,7 +158,12 @@ class BusMapFragment: Fragment(), OnMapReadyCallback {
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
-    fun locationPermissionGranted() {
+    private fun dpToPx(context: Context, dp: Float): Float {
+        val metrics = context.resources.displayMetrics
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics)
+    }
+
+    private fun locationPermissionGranted() {
         if (context != null && (ContextCompat.checkSelfPermission(context as Context, Manifest.permission.ACCESS_COARSE_LOCATION)
             == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context as Context, Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) && ::map.isInitialized) {

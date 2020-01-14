@@ -24,6 +24,38 @@
                 android:layout_height="wrap_content"
                 android:textSize="24dp"
                 android:textColor="?attr/themeTextColor"
+                android:text="Version 3.0.2"/>s
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="?attr/themeTextColor"
+                android:text="-Fixed text color issues"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="?attr/themeTextColor"
+                android:text="-Added status bar to display next stop on route page" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="?attr/themeTextColor"
+                android:text="-Fixed issue with favorites not being imported from previous version"
+                android:paddingBottom="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?attr/themeSoftTextColor"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:textColor="?attr/themeTextColor"
                 android:text="Version 3.0"/>
             <TextView
                 android:layout_width="wrap_content"

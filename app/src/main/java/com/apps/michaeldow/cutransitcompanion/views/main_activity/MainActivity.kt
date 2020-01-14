@@ -44,8 +44,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showChangeLog() {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        if (prefs.getString("lastChangeLogVersion", "1.0.0") != "3.0.0") {
+        val version = "3.0.2"
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        if (prefs.getString("lastChangeLogVersion", "1.0.0") != version) {
 
             val builder: AlertDialog.Builder? = this.let {
                 AlertDialog.Builder(it, R.style.AlertDialogTheme)
@@ -59,9 +60,14 @@ class MainActivity : AppCompatActivity() {
                     DialogInterface.OnClickListener { dialog, id ->
                         dialog.dismiss()
                         val editor = prefs.edit()
-                        editor.putString("lastChangeLogVersion", "3.0.0")
+                        editor.putString("lastChangeLogVersion", version)
                         editor.apply()
                     })
+                setOnDismissListener { dialog ->
+                    val editor = prefs.edit()
+                    editor.putString("lastChangeLogVersion", version)
+                    editor.apply()
+                }
             }
 
             builder?.create()?.show()
