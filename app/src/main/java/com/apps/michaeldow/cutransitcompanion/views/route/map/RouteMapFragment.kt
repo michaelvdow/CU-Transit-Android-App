@@ -40,6 +40,7 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
     private lateinit var locationProvider: BetterLocationProvider
     private val markers: ArrayList<Marker> = ArrayList()
     private var runnable: Runnable? = null
+    private var handler: Handler? = null
     private var running = true
     private var busMarker: Marker? = null
 
@@ -77,7 +78,7 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
                 // Find stop time
                 for (stopTime in stopTimes) {
                     if (nextStopId == Utils.fixStopId(stopTime.stop_point.stop_id)) {
-                        moveCameraTo(stopTime.stop_point.stop_lat, stopTime.stop_point.stop_lon, true)
+                        moveCameraTo(LatLng(stopTime.stop_point.stop_lat, stopTime.stop_point.stop_lon), true)
                         // Show info window for that marker
                         for (marker in markers) {
                             if (marker.tag != null && Utils.fixStopId(marker.tag as String) == nextStopId) {
@@ -94,7 +95,7 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
             val bus = viewModel.bus.value
             if (bus != null) {
                 val location = bus.location
-                moveCameraTo(location.lat, location.lon, true)
+                moveCameraTo(LatLng(location.lat, location.lon), true)
             }
         }
     }
@@ -117,11 +118,13 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
 
     override fun onPause() {
         mapView?.onPause()
+        running = false
         super.onPause()
     }
 
     override fun onDestroy() {
         mapView?.onDestroy()
+        running = false
         super.onDestroy()
     }
 
@@ -147,14 +150,27 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
         map?.setOnInfoWindowClickListener { marker ->
             if (marker.tag != null) {
                 if (findNavController().currentDestination?.id== R.id.routeFragment) {
+                    viewModel.lastMarker = marker
+                    running = false
+                    if (runnable != null) {
+                        handler?.removeCallbacks(runnable)
+                    }
                     val action = RouteFragmentDirections.actionRouteFragmentToDeparturesFragment(marker.tag as String)
                     findNavController().navigate(action)
                 }
             }
         }
 
-        viewModel.getShape()
-        viewModel.getStops()
+        if (viewModel.shapes.value == null) {
+            viewModel.getShape()
+        } else {
+            setupShapes(viewModel.shapes.value!!)
+        }
+        if (viewModel.stopTimes.value == null) {
+            viewModel.getStops()
+        } else {
+            setupStops(viewModel.stopTimes.value!!)
+        }
         running = true
         setupBusHandler()
     }
@@ -208,9 +224,15 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
 
                 val marker = map.addMarker(options)
                 marker.tag = stopTime.stop_point.stop_id
-                if (stopTime.stop_point.stop_id == viewModel.departure.stop_id) {
-                    moveCameraTo(stopTime.stop_point.stop_lat, stopTime.stop_point.stop_lon)
+                if (viewModel.lastMarker == null && stopTime.stop_point.stop_id == viewModel.departure.stop_id) {
+                    moveCameraTo(LatLng(stopTime.stop_point.stop_lat, stopTime.stop_point.stop_lon))
+                    viewModel.lastMarker = marker
                     marker.showInfoWindow()
+                } else if (viewModel.lastMarker != null && viewModel.lastMarker?.tag == marker.tag) {
+                    moveCameraTo(LatLng(stopTime.stop_point.stop_lat, stopTime.stop_point.stop_lon))
+                    moveCameraTo(LatLng(stopTime.stop_point.stop_lat, stopTime.stop_point.stop_lon))
+                    marker.showInfoWindow()
+                    viewModel.lastMarker = marker
                 }
                 markers.add(marker)
             }
@@ -237,29 +259,30 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun moveCameraTo(lat: Double, lon: Double, animate: Boolean = false) {
+    private fun moveCameraTo(position: LatLng, animate: Boolean = false) {
+        println(position)
         if (animate) {
             map?.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.Builder()
-                .target(LatLng(lat, lon))
+                .target(position)
                 .zoom(16f)
                 .build()))
         } else {
-            map?.moveCamera(CameraUpdateFactory.newLatLng(LatLng(lat, lon)))
+            map?.moveCamera(CameraUpdateFactory.newLatLng(position))
             map?.moveCamera(CameraUpdateFactory.zoomTo(16f))
         }
     }
 
     private fun setupBusHandler() {
         val checkDuration: Long = 60000
-        val handler = Handler()
+        handler = Handler()
         runnable = Runnable {
             if (running) {
                 viewModel.updateBusLocation()
 
-                handler.postDelayed(runnable, checkDuration)
+                handler?.postDelayed(runnable, checkDuration)
             }
         }
-        handler.postDelayed(runnable, 0)
+        handler?.postDelayed(runnable, 0)
     }
 
 

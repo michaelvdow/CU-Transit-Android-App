@@ -10,6 +10,7 @@ import com.apps.michaeldow.cutransitcompanion.API.responses.departureResponse.De
 import com.apps.michaeldow.cutransitcompanion.API.responses.shapeResponse.Shape
 import com.apps.michaeldow.cutransitcompanion.API.responses.stopTimesResponse.StopTime
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -41,6 +42,8 @@ class RouteMapViewModel(application: Application): AndroidViewModel(application)
     private var mutableBus: MutableLiveData<Vehicle> = MutableLiveData()
     val bus: LiveData<Vehicle>
         get() = mutableBus
+
+    var lastMarker: Marker? = null
 
     fun getShape() {
         scope.launch {
