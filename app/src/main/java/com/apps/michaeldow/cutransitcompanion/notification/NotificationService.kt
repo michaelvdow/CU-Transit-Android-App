@@ -18,7 +18,6 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavDeepLinkBuilder
-import androidx.navigation.Navigation
 import com.apps.michaeldow.cutransitcompanion.API.ApiFactory
 import com.apps.michaeldow.cutransitcompanion.API.responses.DeparturesResponse
 import com.apps.michaeldow.cutransitcompanion.API.responses.departureResponse.Departure
@@ -155,7 +154,7 @@ class NotificationService: Service() {
     }
 
     private fun updateNotificationUI(response: DeparturesResponse?) {
-        if (response != null) {
+        if (response?.departures != null) {
             val departures = response.departures
             for (departure in departures) {
                 if (departure.trip.trip_id == this.departure.trip.trip_id) {
