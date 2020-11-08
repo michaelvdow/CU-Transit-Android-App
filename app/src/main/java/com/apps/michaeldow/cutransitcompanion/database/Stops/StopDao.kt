@@ -7,7 +7,7 @@ import androidx.room.Query
 @Dao
 interface StopDao {
 
-    @Query("SELECT * FROM stops WHERE stop_name LIKE :stopName LIMIT 1")
+    @Query("SELECT * FROM stops WHERE stop_name LIKE (:stopName || '%' ) LIMIT 1")
     fun getStop(stopName: String?): List<StopItem?>?
 
     @Query("SELECT * FROM stops")

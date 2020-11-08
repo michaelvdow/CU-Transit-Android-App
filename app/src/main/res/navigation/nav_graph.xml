@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_tabFragment_to_departuresFragment"
             app:destination="@id/departuresFragment" />
+        <action
+            android:id="@+id/action_tabFragment_to_tripPlannerFragment"
+            app:destination="@id/tripPlannerFragment" />
     </fragment>
     <fragment
         android:id="@+id/routeFragment"
@@ -35,4 +38,8 @@
             android:id="@+id/action_routeFragment_to_departuresFragment"
             app:destination="@id/departuresFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/tripPlannerFragment"
+        android:name="com.apps.michaeldow.cutransitcompanion.views.trip_planner.TripPlannerFragment"
+        android:label="TripPlannerFragment" />
 </navigation>

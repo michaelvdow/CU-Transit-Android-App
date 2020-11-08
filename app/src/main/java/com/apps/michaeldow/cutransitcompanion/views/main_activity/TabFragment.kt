@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import com.apps.michaeldow.cutransitcompanion.databinding.FragmentTabsBinding
@@ -41,6 +42,11 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
         setupTabs()
 
         observeViewModel(viewModel)
+//
+//        binding.fab.setOnClickListener {
+//            val action = TabFragmentDirections.actionTabFragmentToTripPlannerFragment()
+//            findNavController().navigate(action)
+//        }
 
         return binding.root
     }

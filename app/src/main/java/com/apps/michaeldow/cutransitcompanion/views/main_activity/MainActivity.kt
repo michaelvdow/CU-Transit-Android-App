@@ -2,6 +2,7 @@ package com.apps.michaeldow.cutransitcompanion.views.main_activity
 
 import android.Manifest
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -17,6 +18,7 @@ import com.apps.michaeldow.cutransitcompanion.Utils.BetterLocationProvider
 import com.apps.michaeldow.cutransitcompanion.Utils.Permissions
 import com.apps.michaeldow.cutransitcompanion.Utils.SharedPreferenceKeys
 import com.apps.michaeldow.cutransitcompanion.databinding.ActivityMainBinding
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -58,10 +60,14 @@ class MainActivity : AppCompatActivity() {
             builder?.apply {
                 setPositiveButton("OK",
                     DialogInterface.OnClickListener { dialog, id ->
-                        dialog.dismiss()
-                        val editor = prefs.edit()
-                        editor.putString("lastChangeLogVersion", version)
-                        editor.apply()
+                        try {
+                            dialog.dismiss()
+                            val editor = prefs.edit()
+                            editor.putString("lastChangeLogVersion", version)
+                            editor.apply()
+                        } catch (e: Exception) {
+
+                        }
                     })
                 setOnDismissListener { dialog ->
                     val editor = prefs.edit()

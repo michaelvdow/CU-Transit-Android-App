@@ -2,6 +2,7 @@ package com.apps.michaeldow.cutransitcompanion.API
 
 import com.apps.michaeldow.cutransitcompanion.API.responses.DeparturesResponse
 import com.apps.michaeldow.cutransitcompanion.API.responses.ShapeResponse
+import com.apps.michaeldow.cutransitcompanion.API.responses.TripResponse.TripResponse
 import com.apps.michaeldow.cutransitcompanion.API.responses.busLocationResponse.BusLocationResponse
 import com.apps.michaeldow.cutransitcompanion.API.responses.stopTimesResponse.StopTimesResponse
 import kotlinx.coroutines.Deferred
@@ -24,5 +25,10 @@ interface MtdApi {
     @GET("getvehicle")
     fun getBusLocation(@Query("vehicle_id") vehicleId: String): Deferred<Response<BusLocationResponse>>
 
+    @GET("getplannedtripsbylatlon")
+    fun getPlannedTrips(@Query("origin_lat") originLat: Double,
+                        @Query("origin_lon") originLon: Double,
+                        @Query("destination_lat") destinationLat: Double,
+                        @Query("destination_lon") destinationLon: Double): Deferred<Response<TripResponse>>
 
 }
