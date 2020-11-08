@@ -14,7 +14,7 @@
     <string name="title_activity_directions">Directions</string>
     <string name="location_flipper_description">Flip Locations</string>
     <string name="gps_network_not_enabled">To use this feature, turn on location, which use\'s Google\'s location service</string>
-    <string name="open_location_settings">OK</string>
+    <string name="ok">OK</string>
     <string name="Cancel">Cancel</string>
     <string name="pull_to_refresh">Pull down to refresh</string>
     <string name="favorites_empty_text">Click the favorites icon on a bus stop to see them here</string>
@@ -46,8 +46,8 @@
     <string name="favorites_fragment">Favorites</string>
     <string name="map_fragment">Map</string>
     <string name="stops">Stops</string>
-    <string name="next_stop">Next stop:</string>
-    <string name="updated">Updated:</string>
+    <string name="next_stop">Next Stop:</string>
+    <string name="updated">Updated: </string>
 
 
     <string name="to">To</string>
@@ -56,5 +56,6 @@
     <string name="release_notes">Release Notes</string>
     <string name="dark_mode_description">Click the settings button next to search to enable dark mode</string>
     <string name="dark_mode_title">Try the new dark mode!</string>
+    <string name="bus_location">Bus location</string>
 </resources>
 

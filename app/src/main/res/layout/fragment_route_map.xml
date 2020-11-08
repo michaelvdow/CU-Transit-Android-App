@@ -67,7 +67,7 @@
                         android:paddingBottom="16dp"
                         android:textColor="?attr/themeSoftTextColor"
                         android:textSize="14sp"
-                        android:text="Updated: "/>
+                        android:text="@string/updated"/>
                 </LinearLayout>
 
                 <com.google.android.material.card.MaterialCardView
@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:clickable="true"
-                        android:tooltipText="Bus location"
+                        android:tooltipText="@string/bus_location"
                         android:foreground="?attr/selectableItemBackground"
                         android:src="@drawable/ic_route_bus_location" />
                 </com.google.android.material.card.MaterialCardView>

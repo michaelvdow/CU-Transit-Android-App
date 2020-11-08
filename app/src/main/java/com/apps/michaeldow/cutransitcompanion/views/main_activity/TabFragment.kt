@@ -57,11 +57,11 @@ class TabFragment: Fragment(), SearchView.OnQueryTextListener, SearchView.OnSugg
                 AlertDialog.Builder(context as Context, R.style.AlertDialogTheme)
             }
 
-            builder?.setTitle("Release Notes")
+            builder?.setTitle(R.string.release_notes)
                 ?.setView(R.layout.dialog_changelog)
 
             builder?.apply {
-                setPositiveButton("OK",
+                setPositiveButton(R.string.ok,
                     DialogInterface.OnClickListener { dialog, id ->
                         dialog.dismiss()
                     })
