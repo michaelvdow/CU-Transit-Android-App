@@ -24,25 +24,25 @@
                 android:layout_height="wrap_content"
                 android:textSize="24dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="Version 3.0.2"/>s
+                android:text="@string/version_3_0_2"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="-Fixed text color issues"/>
+                android:text="@string/fixed_text_color_issues"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="-Added status bar to display next stop on route page" />
+                android:text="@string/added_status_bar" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="-Fixed issue with favorites not being imported from previous version"
+                android:text="@string/fixed_issue_with_favorites"
                 android:paddingBottom="16dp"/>
 
             <View
@@ -56,13 +56,13 @@
                 android:layout_height="wrap_content"
                 android:textSize="24dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="Version 3.0"/>
+                android:text="@string/version_3_0"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="New features and bug fixes"
+                android:text="@string/new_features_and_bug_fixes"
                 android:paddingBottom="8dp"/>
 
             <TextView
@@ -70,13 +70,13 @@
                 android:layout_height="wrap_content"
                 android:textSize="24dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="Dark Mode"/>
+                android:text="@string/dark_mode"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="Click the 3 dot menu button to change to dark mode"
+                android:text="@string/click_the_3_dot_menu"
                 android:paddingBottom="8dp"/>
 
             <TextView
@@ -84,13 +84,13 @@
                 android:layout_height="wrap_content"
                 android:textSize="24dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="Reorder favorites"/>
+                android:text="@string/reorder_favorites"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="Click and drag the reorder button to move favorites"
+                android:text="@string/click_and_drag_the_reorder_button"
                 android:paddingBottom="8dp"/>
 
 
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
                     android:textColor="?attr/themeTextColor"
-                    android:text="Reorder button:"
+                    android:text="@string/reorder_button"
                     android:paddingRight="8dp"
                     android:paddingBottom="8dp"/>
                 <ImageView
@@ -124,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="24dp"
                     android:textColor="?attr/themeTextColor"
-                    android:text="iStops"/>
+                    android:text="@string/istops"/>
                 <ImageView
                     android:id="@+id/iStop"
                     android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="See which bus routes are iStops when viewing departures"
+                android:text="@string/bus_routes_istops"
                 android:paddingBottom="8dp"/>
 
             <TextView
@@ -147,13 +147,13 @@
                 android:layout_height="wrap_content"
                 android:textSize="24dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="Bug fixes"/>
+                android:text="@string/bug_fixes"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="Updated stops, routes, and departures, and fixed crashes"
+                android:text="@string/fixed_crashes"
                 android:paddingBottom="8dp"/>
 
             <TextView
@@ -161,14 +161,14 @@
                 android:layout_height="wrap_content"
                 android:textSize="24dp"
                 android:textColor="?attr/themeTextColor"
-                android:text="Feedback"/>
+                android:text="@string/feedback"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
                 android:textColor="?attr/themeTextColor"
                 android:autoLink="email|web"
-                android:text="If you have any issues, you can email your feedback to cutransitdeveloper@gmail.com. If you've enjoyed the app, please leave a review!"
+                android:text="@string/email_your_feedback"
                 android:paddingBottom="8dp"/>
 
         </LinearLayout>

@@ -53,9 +53,27 @@
     <string name="to">To</string>
     <string name="metric">Metric</string>
     <string name="dark_theme">Dark Theme</string>
+
     <string name="release_notes">Release Notes</string>
     <string name="dark_mode_description">Click the settings button next to search to enable dark mode</string>
     <string name="dark_mode_title">Try the new dark mode!</string>
     <string name="bus_location">Bus location</string>
+    <string name="version_3_0_2">Version 3.0.2</string>
+    <string name="fixed_text_color_issues">-Fixed text color issues</string>
+    <string name="added_status_bar">-Added status bar to display next stop on route page</string>
+    <string name="fixed_issue_with_favorites">-Fixed issue with favorites not being imported from previous version</string>
+    <string name="version_3_0">Version 3.0</string>
+    <string name="new_features_and_bug_fixes">New features and bug fixes</string>
+    <string name="click_the_3_dot_menu">Click the 3 dot menu button to change to dark mode</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="reorder_favorites">Reorder favorites</string>
+    <string name="click_and_drag_the_reorder_button">Click and drag the reorder button to move favorites</string>
+    <string name="reorder_button">Reorder button:</string>
+    <string name="istops">iStops</string>
+    <string name="bus_routes_istops">See which bus routes are iStops when viewing departures</string>
+    <string name="bug_fixes">Bug fixes</string>
+    <string name="fixed_crashes">Updated stops, routes, and departures, and fixed crashes</string>
+    <string name="email_your_feedback">If you have any issues, you can email your feedback to cutransitdeveloper@gmail.com. If you\'ve enjoyed the app, please leave a review!</string>
+    <string name="feedback">Feedback</string>
 </resources>
 
