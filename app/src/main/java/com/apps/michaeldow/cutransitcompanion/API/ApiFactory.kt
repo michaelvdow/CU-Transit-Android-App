@@ -6,6 +6,7 @@ import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 // REFERENCE: https://android.jlelse.eu/android-networking-in-2019-retrofit-with-kotlins-coroutines-aefe82c4d777
 object ApiFactory  {
@@ -28,6 +29,9 @@ object ApiFactory  {
 
     private val mtdClient = OkHttpClient().newBuilder()
         .addInterceptor(authInterceptor)
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(60, TimeUnit.SECONDS)
+        .writeTimeout(60, TimeUnit.SECONDS)
         .build()
 
     private fun retrofit() : Retrofit = Retrofit.Builder()

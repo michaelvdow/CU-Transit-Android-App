@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [StopItem::class], version = 1, exportSchema = false)
+@Database(entities = [StopItem::class], version = 2, exportSchema = false)
 abstract class StopDatabase : RoomDatabase() {
 
     abstract fun stopDao(): StopDao
@@ -21,10 +23,10 @@ abstract class StopDatabase : RoomDatabase() {
                 instance = Room
                     .databaseBuilder(context, StopDatabase::class.java, DATABASE_NAME)
                     .createFromAsset(DATABASE_PATH)
+                    .fallbackToDestructiveMigration()
                     .build()
             }
             return instance!!
         }
-
     }
 }
