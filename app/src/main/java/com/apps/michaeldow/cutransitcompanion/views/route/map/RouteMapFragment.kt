@@ -197,7 +197,7 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
                 val options = MarkerOptions()
                     .position(LatLng(bus.location.lat, bus.location.lon))
                     .icon(icon)
-                    .title(Utils.fixLastUpdatedTime(bus.last_updated))
+                    .title(getString(R.string.updated) + " " + Utils.fixLastUpdatedTime(bus.last_updated))
                     .visible(true)
                     .zIndex(3.0f)
 
@@ -255,7 +255,7 @@ class RouteMapFragment: Fragment(), OnMapReadyCallback {
             }
         }
         if (bus != null) {
-            binding.routeUpdated.text = Utils.fixLastUpdatedTime(bus.last_updated)
+            binding.routeUpdated.text = getString(R.string.updated) + " " + Utils.fixLastUpdatedTime(bus.last_updated)
         }
     }
 

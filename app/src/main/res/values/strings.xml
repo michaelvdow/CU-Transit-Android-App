@@ -75,5 +75,7 @@
     <string name="fixed_crashes">Updated stops, routes, and departures, and fixed crashes</string>
     <string name="email_your_feedback">If you have any issues, you can email your feedback to cutransitdeveloper@gmail.com. If you\'ve enjoyed the app, please leave a review!</string>
     <string name="feedback">Feedback</string>
+
+    <string name="next_stop_tba">Next Stop: TBA</string>
 </resources>
 

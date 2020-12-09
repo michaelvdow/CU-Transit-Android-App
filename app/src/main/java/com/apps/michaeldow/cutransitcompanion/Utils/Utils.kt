@@ -40,8 +40,7 @@ class Utils {
                 val date: Date = format.parse(time)
 
                 val betterFormat: DateFormat = SimpleDateFormat("h:mm a")
-                var betterDate = betterFormat.format(date)
-                return "Updated: $betterDate"
+                return betterFormat.format(date)
             } catch (e: Exception) {
                 return ""
             }
